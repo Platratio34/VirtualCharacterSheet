@@ -1,0 +1,19 @@
+{
+    "displayName": "Courtier",
+    "source": "Sword Coast Adventurer's Guide",
+    "skillProficiencies": ["insight","persuasion"],
+    "otherProficiencies": [],
+    "languagesProficiencies": {"count": 2},
+    "startingEquipment": [
+        [
+            ["Fine Clothing"],
+            ["Pouch (5gp)"]
+        ]
+    ],
+    "features": [
+        {
+            "displayName": "Court Functionary",
+            "description": "Your knowledge of how bureaucracies function lets you gain access to the records and inner workings of any noble court or government you encounter. You know who the movers and shakers are, whom to go to for the favors you seek, and what the current intrigues of interest in the group are."
+        }
+    ]
+}

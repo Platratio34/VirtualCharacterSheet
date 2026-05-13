@@ -1,0 +1,37 @@
+body {
+    background-color: #080810;
+    color: #f0f0f0;
+    width: calc(100vw - 20px);
+    height: calc(100vh - 20px);
+    margin: 0px;
+    padding: 10px;
+    
+}
+
+a {
+    color: #c0c0f0;
+}
+a:visited {
+    color: #8080f0;
+}
+pre {
+    margin-top: 1pt;
+}
+
+.nav, nav {
+    margin-bottom: 12pt;
+    font-size: 15pt;
+}
+.nav a, nav a {
+    color: inherit
+}
+
+a.inline {
+    color: inherit
+}
+
+footer.copyright {
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+}

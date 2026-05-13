@@ -1,0 +1,43 @@
+{
+    "displayName": "Hellish Rebuke (Flavored)",
+    "source": "PHB",
+    "castingTime": "reaction",
+    "range": "60ft",
+    "components": "VS",
+    "damage": "2d10 Necrotic",
+    "halfSave": "dex",
+    "targets": 1,
+    "description": [
+        "You point your finger, and the creature that damaged you is momentarily surrounded by hellish flames. The creature must make a Dexterity saving throw. It takes 2d10 necrotic damage on a failed save, or half as much damage on a successful one."
+    ],
+    "higherLevels": {
+        "description": "When you cast this spell using a spell slot of 2nd level or higher, the damage increases by 1d10 for each slot level above 1st.",
+        "lvl2": {
+            "damage": "3d10 Necrotic"
+        },
+        "lvl3": {
+            "damage": "4d10 Necrotic"
+        },
+        "lvl4": {
+            "damage": "5d10 Necrotic"
+        },
+        "lvl5": {
+            "damage": "6d10 Necrotic"
+        },
+        "lvl6": {
+            "damage": "7d10 Necrotic"
+        },
+        "lvl7": {
+            "damage": "8d10 Necrotic"
+        },
+        "lvl8": {
+            "damage": "9d10 Necrotic"
+        },
+        "lvl9": {
+            "damage": "10d10 Necrotic"
+        },
+        "lvl10": {
+            "damage": "11d10 Necrotic"
+        }
+    }
+}

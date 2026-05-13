@@ -1,0 +1,6 @@
+11/7/2025 22:32:02 | ERROR | Error loading file ../data/class/bard.json: TypeError [ERR_HTTP_INVALID_HEADER_VALUE]: Invalid value "undefined" for header "Content-Type"
+11/7/2025 22:32:02 | ERROR | Error loading file ../data/subclass/bard_eloquence.json: TypeError [ERR_HTTP_INVALID_HEADER_VALUE]: Invalid value "undefined" for header "Content-Type"
+11/7/2025 22:32:02 | ERROR | Error loading file ../data/race/aasimar_variant.json: TypeError [ERR_HTTP_INVALID_HEADER_VALUE]: Invalid value "undefined" for header "Content-Type"
+11/7/2025 22:32:37 | ERROR | Error loading file ../data/class/bard.json: TypeError [ERR_HTTP_INVALID_HEADER_VALUE]: Invalid value "undefined" for header "Content-Type"
+11/7/2025 22:32:37 | ERROR | Error loading file ../data/subclass/bard_eloquence.json: TypeError [ERR_HTTP_INVALID_HEADER_VALUE]: Invalid value "undefined" for header "Content-Type"
+11/7/2025 22:32:37 | ERROR | Error loading file ../data/race/aasimar_variant.json: TypeError [ERR_HTTP_INVALID_HEADER_VALUE]: Invalid value "undefined" for header "Content-Type"

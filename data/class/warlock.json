@@ -1,0 +1,24 @@
+{
+    "displayName": "Warlock",
+    "hitDiceType": 8,
+    "baseHP": 8,
+    "saveProficiencies": [ "wis", "cha" ],
+    "skillProficiencies": 2,
+    "otherProficiencies": ["armor_light", "weapons_simple"],
+    "levels": {
+        "1": {"prof": 2, "cantrips": 2, "spells": 2, "spellSlots": {"1": 1}, "features": ["otherworldPatron", "spellCasting"] },
+        "2": {"prof": 2, "cantrips": 2, "spells": 3, "spellSlots": {"1": 2}, "features": ["eldrichInvocations"] },
+        "3": {"prof": 2, "cantrips": 2, "spells": 4, "spellSlots": {"2": 2}, "features": ["pactBoon"] },
+        "4": {"prof": 2, "cantrips": 3, "spells": 5, "spellSlots": {"2": 2}, "features": ["abilityScore"] },
+        "5": {"prof": 3, "cantrips": 3, "spells": 6, "spellSlots": {"3": 2}, "features": [] },
+        "6": {"prof": 3, "cantrips": 3, "spells": 7, "spellSlots": {"3": 2}, "features": [] }
+    },
+    "features": {
+        "spellCasting": {
+            "ability": "cha",
+            "recovery": "shortRest",
+            "mod": "$PROF+$CHA",
+            "save": "8+$PROF+$CHA"
+        }
+    }
+}
