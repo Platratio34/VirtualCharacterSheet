@@ -672,11 +672,11 @@ function saveCharacter(id = charId) {
         body: JSON.stringify(msg)
     }).then(response => {
         response.text().then(text => console.log(`Save response: ${text}`))
-        if(!response.ok)
-            dirty = true
+        if (!response.ok)
+            makeDirty()
     }).catch(error => {
         console.error(`Save Error: ${error}`)
-        dirty = true
+        makeDirty()
     })
 }
 
@@ -688,6 +688,8 @@ function useSpellSlot(lvl, amount = 1) {
         num = 0
     else if (num > max)
         num = max
+    if (char.spellSlotsUsed[lvlStr] == num)
+        return
     char.spellSlotsUsed[lvlStr] = num
     updateSpellSlots(lvl)
     makeDirty()
