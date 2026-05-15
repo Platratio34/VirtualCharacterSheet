@@ -3,6 +3,14 @@ let charClass = null
 let charSubClass = null
 let charRace = new CharacterRace()
 let charBackground = null
+let charId = getQueryParam("id") ?? 'ventris'
+
+let dirty = false
+function makeDirty() {
+    if (!dirty)
+        console.log("Marked dirty")
+    dirty = true
+}
 
 function _updateAbilityDisp(ability)
 {
@@ -150,8 +158,7 @@ function updateCharacter()
     document.getElementById('char.speed').innerHTML = char.speed
     
     document.getElementById('char.maxHP').innerHTML = char.maxHp
-    document.getElementById('char.hp').innerHTML = char.hp
-    document.getElementById('char.tempHP').innerHTML = char.tempHp
+    updateHP()
     
     if (char.languages) {
         const langProf = document.getElementById('char.languages')
@@ -225,9 +232,16 @@ function updateCharacter()
 
 function updateSpellSlots(level) {
     level = `lvl${level}`
-    if (char.spellSlots[level]) {
-        document.getElementById(`spells.${level}.slots`).innerHTML = `${char.spellSlots[level]-char.spellSlotsUsed[level]}/${char.spellSlots[level]} Remaning`
-    }
+    if (!char.spellSlots)
+        document.getElementById(`spells.${level}.slots`).innerHTML = `-/- Remaning`
+    let used = char.spellSlotsUsed[level] ?? 0
+    let total = char.spellSlots[level] ?? 0
+    document.getElementById(`spells.${level}.slots`).innerHTML = `${total == 0 ? '-' : total-used}/${total == 0 ? '-' : total} Remaning`
+}
+
+function updateHP() {
+    document.getElementById('char.hp').innerHTML = char.hp
+    document.getElementById('char.tempHP').value = char.tempHp
 }
 
 function makeDescriptionEls(parent, description, alt=null) {
@@ -545,8 +559,8 @@ function addFeature(feat) {
     makeDescriptionEls(bodyDiv, feat.description, 'No Description')
 }
 
-function fetchCharacter(charId) {
-    fetch(`character/data/${charId}`).then(rsp => {
+function fetchCharacter(characterId) {
+    fetch(`character/data/${characterId}`).then(rsp => {
         return rsp.json()
     }).then(data => {
         loadCharacter(data)
@@ -652,4 +666,114 @@ function fetchBackground() {
     })
 }
 
+function saveCharacter(id = charId) {
+    let msg = {
+        password: localStorage.getItem('vcs_password'),
+        id: id,
+        char: char
+    }
+    console.log(`Saving character ${id}`)
+    fetch('character/save', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(msg)
+    }).then(response => {
+        response.text().then(text => console.log(`Save response: ${text}`))
+        if(!response.ok)
+            dirty = true
+    }).catch(error => {
+        console.error(`Save Error: ${error}`)
+        dirty = true
+    })
+}
+
+function useSpellSlot(lvl, amount = 1) {
+    let lvlStr = `lvl${lvl}`
+    let max = char.spellSlots[lvlStr] ?? 0
+    let num = char.spellSlotsUsed[lvlStr] ? char.spellSlotsUsed[lvlStr] + amount : amount
+    if (num < 0)
+        num = 0
+    else if (num > max)
+        num = max
+    char.spellSlotsUsed[lvlStr] = num
+    updateSpellSlots(lvl)
+    makeDirty()
+}
+
+function damage(ammount) {
+    if (char.tempHp > 0) {
+        let n = char.tempHp - ammount
+        if (n >= 0) {
+            setTempHp(n)
+        } else {
+            setTempHp(0)
+            modifyHP(n)
+        }
+    } else {
+        modifyHP(-ammount)
+    }
+}
+
+function modifyHP(ammount) {
+    setHP(char.hp+ammount)
+}
+
+function setHP(newHP) {
+    if (newHP > char.maxHp) {
+        newHP = char.maxHp
+    } else if (newHP < 0) {
+        newHP = 0
+    }
+    if (char.hp == newHP)
+        return
+    char.hp = newHP
+    makeDirty()
+    updateHP()
+}
+function setTempHp(newTemp = Number(document.getElementById('char.tempHP').value)) {
+    if (newTemp < 0)
+        newTemp = 0
+    if (newTemp == char.tempHp)
+        return
+    char.tempHp = newTemp
+    makeDirty()
+    document.getElementById('char.tempHP').value = newTemp
+}
+
+function longRest() {
+    if (charClass.features.spellCasting) {
+        char.spellSlotsUsed = {}
+    }
+    for (let i = 1; i <= 5; i++)
+        updateSpellSlots(i)
+    char.hp = char.maxHp
+    updateHP()
+    makeDirty()
+}
+function shortRest() {
+    if (charClass.features.spellCasting) {
+        if(charClass.features.spellCasting.recovery == 'shortRest')
+            char.spellSlotsUsed = {}
+    }
+    for (let i = 1; i <= 5; i++)
+        updateSpellSlots(i)
+    makeDirty()
+}
+
 fetchCharacter(getQueryParam("id") || 'ventris')
+
+setInterval(() => {
+    if (dirty) {
+        saveCharacter()
+        dirty = false
+    }
+}, 5000)
+
+window.addEventListener('beforeunload', (event) => {
+  if (dirty) {
+    event.preventDefault();
+    event.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+  }
+});

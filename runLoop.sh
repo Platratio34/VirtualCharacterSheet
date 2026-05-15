@@ -1,6 +1,6 @@
 while true
 do
     node server/server.js
-    echo "Restarting in 15 seconds"
-    sleep 15
+    echo "Restarting in 5 seconds"
+    sleep 5
 done

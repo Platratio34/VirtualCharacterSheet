@@ -70,6 +70,15 @@ class Character {
         this.hitDice = 1
         this.hitDiceTotal = 1
         this.hitDiceType = 8
+
+        this.spells = null
+        this.spellSpots = {}
+        this.spellSlotsUsed = {}
+        this.lanugages = []
+        this.equipmentProficiencies = []
+        this.features = []
+        this.coinage = { pp: 0, gp: 0, sp: 0, cp: 0 }
+        this.inventory = []
     }
 
     toMod(value)

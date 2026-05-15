@@ -13,23 +13,30 @@ const { error } = require('console');
 // }
 const config = require("../config.json")
 
-const server = createServer((req, res) => {
+const server = createServer(processRequest)
+async function processRequest(req, res) {
     const { method, url, headers } = req;
     // console.log(`Msg '${url}'`)
     try {
 
         let body = "";
         if (method == 'POST') {
-            res.on("data", data => {
+            // console.log('POST request')
+            let done = false
+            req.on("data", data => {
                 body += data;
             });
-            res.on("end", () => {
-                console.log(headers['content-type'])
+            req.on("end", () => {
+                // console.log(headers['content-type'])
                 if (headers['content-type'] == 'application/json') {
                     body = JSON.parse(body);
-                    console.log(body)
+                    // console.log(body)
                 }
+                done = true
             });
+            while (!done) {
+                await new Promise(r => setTimeout(r, 10))
+            }
         }
 
         let path = nodeUrl.parse(url, true)
@@ -96,21 +103,48 @@ const server = createServer((req, res) => {
             res.end(`Unknown data type '${parts[2]}'`)
             return;
         } else if (parts[1] == 'character') {
-            if (parts.length >= 3 && parts[2] == 'data')
-            {
+            if (parts.length >= 4 && parts[2] == 'data') {
                 let cName = parts[3]
                 returnFile(res, `../data/characters/${cName}.json`, 'application/json')
+                return
+            } else if (parts.length == 3 && parts[2] == 'save') {
+                if (method != 'POST') {
+                    returnText(res, 400, 'Path `charter/save` must be post')
+                    return
+                }
+                if (body.password == null) {
+                    returnText(res, 400, 'Missing password')
+                    return
+                } else if (body.password != config.password) {
+                    console.warn(`Character save attempted with invald password`)
+                    returnText(res, 401, 'Invalid password')
+                    return
+                }
+                let fName = `${config.basePath}data/characters/${body.id}.json`
+                fs.writeFile(fName, JSON.stringify(body.char), (err) => {
+                    if (err) {
+                        console.error(`Error saving character ${body.id}: ${err}`)
+                        returnText(res, 500, 'Server Error saving character')
+                    } else {
+                        console.log(`Saved character ${body.id}`)
+                        returnText(res, 200, 'Character saved')
+                    }
+                })
                 return
             }
             res.statusCode = 200
             returnPage(res, "character/sheet", {})
+            return
+        } else if (parts[1] == 'setPassword') {
+            returnPage(res, "setPassword", {})
             return
         }
     } catch (e) {
         res.statusCode = 500
         res.setHeader('Content-Type', 'text/plain')
         res.end('Server error processing request, try again later')
-        console.warn(`Uncaught error processing request: '${url}'; ${e}`)
+        console.warn(`Uncaught error processing request: '${url}'`)
+        console.error(e)
         return
     }
 
@@ -120,7 +154,7 @@ const server = createServer((req, res) => {
     res.end('How did you get here?\n')
     console.warn(`Got invalid url: '${url}'`)
     return
-})
+}
 
 server.listen(config.port, config.host, () => {
     console.log(`Starting server on ${config.host}:${config.port}`)
@@ -156,6 +190,11 @@ function returnFile(res, path, type = "text/plain") {
         res.setHeader('Content-Type', 'text/plain')
         res.end('Could not find file')
     }
+}
+function returnText(res, code, text) {
+    res.statusCode = code
+    res.setHeader('Content-Type', 'text/plain')
+    res.end(text)
 }
 
 const readline = require('readline');

@@ -35,3 +35,15 @@ footer.copyright {
     right: 5px;
     bottom: 5px;
 }
+
+input {
+    background-color: #101020;
+    color: #f0f0f0;
+    border-radius: 4pt;
+}
+
+button {
+    background-color: #181828;
+    color: #f0f0f0;
+    border-radius: 4pt;
+}
