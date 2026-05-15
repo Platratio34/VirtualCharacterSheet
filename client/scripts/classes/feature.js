@@ -1,6 +1,5 @@
 class Feature {
-    constructor()
-    {
+    constructor() {
         this.displayName = ""
         this.description = ""
         this.charges = null

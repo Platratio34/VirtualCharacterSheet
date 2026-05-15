@@ -1,6 +1,5 @@
 class Spell {
-    constructor()
-    {
+    constructor() {
         this.displayName = ""
         this.source = ""
         this.castingTime = ""

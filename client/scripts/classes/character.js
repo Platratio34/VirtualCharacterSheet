@@ -81,13 +81,11 @@ class Character {
         this.inventory = []
     }
 
-    toMod(value)
-    {
+    toMod(value) {
         return Math.floor((value - 10) / 2)
     }
 
-    toAbilityId(ability)
-    {
+    toAbilityId(ability) {
         ability = ability.toLowerCase()
         switch (ability) {
             case 'str':
@@ -119,20 +117,17 @@ class Character {
         }
     }
 
-    getAbility(ability)
-    {
+    getAbility(ability) {
         return this.abilities[this.toAbilityId(ability)]
     }
 
-    getSave(ability)
-    {
+    getSave(ability) {
         ability = this.toAbilityId(ability)
         let v = this.toMod(this.getAbility(ability))
         return v + (this.proficiencyBonus * this.saveThrows[ability])
     }
 
-    getSkill(skill)
-    {
+    getSkill(skill) {
         let v = this.toMod(this.getAbility(skillToAbility[skill]))
         return v + (this.proficiencyBonus * this.skills[skill])
     }

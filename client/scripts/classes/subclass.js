@@ -1,6 +1,5 @@
 class CharacterSubClass {
-    constructor()
-    {
+    constructor() {
         this.displayName = ""
     }
 }

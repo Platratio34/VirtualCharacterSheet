@@ -1,24 +1,20 @@
 const queryParameters = new URLSearchParams(window.location.search);
 
-function getQueryParam(param)
-{
+function getQueryParam(param) {
     return queryParameters.get(param);
 }
 
-function addModSign(mod)
-{
+function addModSign(mod) {
     if (mod > 0)
         return "+" + mod
     return mod;
 }
 
-function toMod(value)
-{
+function toMod(value) {
     return Math.floor((value - 10) / 2)
 }
 
-function capitalize(str)
-{
+function capitalize(str) {
     return (str.charAt(0).toUpperCase() + str.slice(1)).replace('_', ' ')
 }
 function interpFunction(func, char) {

@@ -12,8 +12,7 @@ function makeDirty() {
     dirty = true
 }
 
-function _updateAbilityDisp(ability)
-{
+function _updateAbilityDisp(ability) {
     let val = char.getAbility(ability)
     document.getElementById(`ability.${ability}.val`).innerHTML = val;
     let mod = char.toMod(val)
@@ -26,14 +25,12 @@ function _updateAbilityDisp(ability)
         modEl.classList.remove('modifierNeg')
 }
 
-function _updateSaveDisp(ability)
-{
+function _updateSaveDisp(ability) {
     let el = document.getElementById(`save.${ability}`)
     let mod = char.getSave(ability)
     el.textContent = addModSign(mod);
 
-    if (mod < 0)
-    {
+    if (mod < 0) {
         el.classList.add('modifierNeg')
         el.classList.remove('modifierProf')
         el.classList.remove('modifierExp')
@@ -41,27 +38,23 @@ function _updateSaveDisp(ability)
     else {
         el.classList.remove('modifierNeg')
         let prof = char.saveThrows[ability]
-        if (prof == 1)
-        {
+        if (prof == 1) {
             el.classList.add('modifierProf')
             el.classList.remove('modifierExp')
         }
-        else if (prof == 2)
-        {
+        else if (prof == 2) {
             el.classList.remove('modifierProf')
             el.classList.add('modifierExp')
         }
     }
 }
 
-function _updateSkillDisp(skill)
-{
+function _updateSkillDisp(skill) {
     let el = document.getElementById(`skill.${skill}`)
     let mod = char.getSkill(skill)
     el.textContent = addModSign(mod);
     
-    if (mod < 0)
-    {
+    if (mod < 0) {
         el.classList.add('modifierNeg')
         el.classList.remove('modifierProf')
         el.classList.remove('modifierExp')
@@ -69,21 +62,18 @@ function _updateSkillDisp(skill)
     else {
         el.classList.remove('modifierNeg')
         let prof = char.skills[skill]
-        if (prof == 1)
-        {
+        if (prof == 1) {
             el.classList.add('modifierProf')
             el.classList.remove('modifierExp')
         }
-        else if (prof == 2)
-        {
+        else if (prof == 2) {
             el.classList.remove('modifierProf')
             el.classList.add('modifierExp')
         }
     }
 }
 
-function setupSkills()
-{
+function setupSkills() {
     let tbl = document.getElementById('skills')
     Object.keys(skillToAbility).forEach(skill => {
         let tr = document.createElement('tr')
@@ -104,8 +94,7 @@ function setupSkills()
 }
 setupSkills()
 
-function updateAbilities()
-{
+function updateAbilities() {
     _updateAbilityDisp("str")
     _updateAbilityDisp("dex")
     _updateAbilityDisp("con")
@@ -126,8 +115,7 @@ function updateAbilities()
     })
 }
 
-function loadCharacter(json)
-{
+function loadCharacter(json) {
     char = new Character("")
     Object.assign(char, json);
     fetchClass()
@@ -141,8 +129,7 @@ function loadCharacter(json)
 }
 
 
-function updateCharacter()
-{
+function updateCharacter() {
 
     document.getElementById('profBonus').textContent = addModSign(char.proficiencyBonus)
     updateAbilities()
@@ -180,12 +167,7 @@ function updateCharacter()
     if(char.inventory) {
         char.inventory.forEach(addItem)
     }
-    if (char.coinage) {
-        document.getElementById('pp').innerHTML = char.coinage.pp ?? 0
-        document.getElementById('gp').innerHTML = char.coinage.gp ?? 0
-        document.getElementById('sp').innerHTML = char.coinage.sp ?? 0
-        document.getElementById('cp').innerHTML = char.coinage.cp ?? 0
-    }
+    updateCoinage()
 
     if (char.spells) {
         if (char.spells.lvl0) {
@@ -242,6 +224,15 @@ function updateSpellSlots(level) {
 function updateHP() {
     document.getElementById('char.hp').innerHTML = char.hp
     document.getElementById('char.tempHP').value = char.tempHp
+}
+
+function updateCoinage() {
+    if (!char.coinage)
+        return
+    document.getElementById('pp').value = char.coinage.pp ?? 0
+    document.getElementById('gp').value = char.coinage.gp ?? 0
+    document.getElementById('sp').value = char.coinage.sp ?? 0
+    document.getElementById('cp').value = char.coinage.cp ?? 0
 }
 
 function makeDescriptionEls(parent, description, alt=null) {
@@ -740,6 +731,29 @@ function setTempHp(newTemp = Number(document.getElementById('char.tempHP').value
     char.tempHp = newTemp
     makeDirty()
     document.getElementById('char.tempHP').value = newTemp
+}
+
+function pullCoinages() {
+    let pp = Number(document.getElementById('pp').value)
+    if (pp != char.coinage.pp) {
+        char.coinage.pp = pp
+        makeDirty()
+    }
+    let gp = Number(document.getElementById('gp').value)
+    if (gp != char.coinage.gp) {
+        char.coinage.gp = gp
+        makeDirty()
+    }
+    let sp = Number(document.getElementById('sp').value)
+    if (sp != char.coinage.sp) {
+        char.coinage.sp = sp
+        makeDirty()
+    }
+    let cp = Number(document.getElementById('cp').value)
+    if (cp != char.coinage.cp) {
+        char.coinage.cp = cp
+        makeDirty()
+    }
 }
 
 function longRest() {

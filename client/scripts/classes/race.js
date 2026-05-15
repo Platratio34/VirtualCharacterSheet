@@ -1,6 +1,5 @@
 class CharacterRace {
-    constructor()
-    {
+    constructor() {
         this.displayName = ""
         this.source = ""
         this.abilities = {}

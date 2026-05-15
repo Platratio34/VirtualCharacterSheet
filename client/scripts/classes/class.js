@@ -1,6 +1,5 @@
 class CharacterClass {
-    constructor()
-    {
+    constructor() {
         this.displayName = ""
     }
 }

@@ -136,6 +136,10 @@
             margin-bottom: 5pt;
             line-height: 1.1;
         }
+
+        .coinInput {
+            width: 100%
+        }
     </style>
 </head>
 
@@ -322,10 +326,10 @@
                                 <th>CP</th>
                             </tr>
                             <tr>
-                                <td id="pp"></td>
-                                <td id="gp"></td>
-                                <td id="sp"></td>
-                                <td id="cp"></td>
+                                <td><input type="number" id="pp" class="coinInput" onchange="pullCoinages()"></td>
+                                <td><input type="number" id="gp" class="coinInput" onchange="pullCoinages()"></td>
+                                <td><input type="number" id="sp" class="coinInput" onchange="pullCoinages()"></td>
+                                <td><input type="number" id="cp" class="coinInput" onchange="pullCoinages()"></td>
                             </tr>
                         </table>
                     </div>

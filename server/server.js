@@ -70,8 +70,7 @@ async function processRequest(req, res) {
             return;
         }
 
-        if (parts[1] == 'data')
-        {
+        if (parts[1] == 'data') {
             switch (parts[2]) {
                 case 'class':
                     returnFile(res, '../data/class/'+parts[3]+'.json', 'application/json')

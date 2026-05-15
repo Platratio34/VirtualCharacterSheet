@@ -1,6 +1,5 @@
 class Background {
-    constructor()
-    {
+    constructor() {
         this.displayName = ""
         this.source = ""
         this.skillProficiencies = []
