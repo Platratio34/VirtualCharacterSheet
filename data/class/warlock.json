@@ -15,10 +15,30 @@
     },
     "features": {
         "spellCasting": {
+            "displayName": "Pact Magic",
+            "description": "Your arcane research and the magic bestowed on you by your patron have given you facility with spells.",
             "ability": "cha",
             "recovery": "shortRest",
             "mod": "$PROF+$CHA",
             "save": "8+$PROF+$CHA"
+        },
+        "otherworldPatron": {
+            "displayName": "Otherworldly Patron",
+            "description": "At 1st level, you have struck a bargain with an otherworldly being of your choice. Your choice grants you features at 1st level and again at 6th, 10th, and 14th level."
+        },
+        "eldrichInvocations": {
+            "displayName": "EldrichInvocations",
+            "description": [
+                "In your study of occult lore, you have unearthed Eldritch Invocations, fragments of forbidden knowledge that imbue you with an abiding magical ability.",
+                "At 2nd level, you gain two eldritch invocations of your choice. When you gain certain warlock levels, you gain additional invocations of your choice, as shown in the Invocations Known column of the Warlock table. A level prerequisite refers to your level in this class.",
+                "Additionally, when you gain a level in this class, you can choose one of the invocations you know and replace it with another invocation that you could learn at that level."
+            ],
+            "lvl": 2
+        },
+        "pactBoon": {
+            "displayName": "Pact Boon",
+            "description": "At 3rd level, your otherworldly patron bestows a gift upon you for your loyal service. You gain one of the following features of your choice.",
+            "lvl": 3
         }
     }
 }

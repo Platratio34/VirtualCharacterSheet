@@ -1,0 +1,16 @@
+{
+    "displayName": "Dagger",
+    "uses": [{
+        "displayName": "Dagger",
+        "type": "action",
+        "damage": "1d4 + $DEX Piercing",
+        "attackBonus": "$DEX"
+    },{
+        "displayName": "Dagger (Thrown)",
+        "type": "action",
+        "damage": "1d4 + $DEX Piercing",
+        "attackBonus": "$DEX",
+        "range": "20/60"
+    }],
+    "weaponType": "simple"
+}

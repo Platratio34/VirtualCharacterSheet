@@ -1,0 +1,16 @@
+{
+    "displayName": "Quarterstaff",
+    "uses": [{
+        "displayName": "Quarterstaff",
+        "type": "action",
+        "damage": "1d6 + $STR Bludgeoning",
+        "attackBonus": "$STR"
+    },{
+        "displayName": "Quarterstaff (Two handed)",
+        "type": "action",
+        "damage": "1d8 + $STR Bludgeoning",
+        "attackBonus": "$STR",
+        "twoHanded": true
+    }],
+    "weaponType": "simple"
+}

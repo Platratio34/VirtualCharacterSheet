@@ -1,0 +1,12 @@
+{
+    "displayName": "Light Crossbow",
+    "use": {
+        "displayName": "Light Crossbow",
+        "type": "action",
+        "damage": "1d8 + $DEX Piercing",
+        "attackBonus": "$DEX",
+        "range": "80/320",
+        "twoHanded": true
+    },
+    "weaponType": "simple"
+}

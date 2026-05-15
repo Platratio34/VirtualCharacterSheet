@@ -10,26 +10,36 @@
     "features": [
         {
             "displayName": "Darkvision",
+            "source": "Race: Aasimar",
             "description": "Blessed with a radiant soul, your vision can easily cut through darkness. You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light. You can't discern color in darkness, only shades of gray."
         },
         {
             "displayName": "Celestial Resistance",
+            "source": "Race: Aasimar",
             "description": "You have resistance to necrotic damage and radiant damage."
         },
         {
             "displayName": "Healing Hands",
+            "source": "Race: Aasimar",
             "description": "As an action, you can touch a creature and cause it to regain a number of hit points equal to your level. Once you use this trait, you can't use it again until you finish a long rest.",
             "charges": 1,
             "recovery": "longRest",
-            "action": "action"
+            "use": {
+                "displayName": "Healing Hands",
+                "type": "action",
+                "range": "touch",
+                "healing": "$LVL"
+            }
         },
         {
             "displayName": "Light Bearer",
+            "source": "Race: Aasimar",
             "description": "You know the Light cantrip. Charisma is your spellcasting ability for it.",
             "spells": ["0_light"]
         },
         {
             "displayName": "Radiant Soul",
+            "source": "Subrace: Protector Aasimar",
             "description": [
                 "Starting at 3rd level, you can use your action to unleash the divine energy within yourself, causing your eyes to glimmer and two luminous, incorporeal wings to sprout from your back.",
                 "Your transformation lasts for 1 minute or until you end it as a bonus action. During it, you have a flying speed of 30 feet, and once on each of your turns, you can deal extra radiant damage to one target when you deal damage to it with an attack or a spell. The extra radiant damage equals your level.",
@@ -38,7 +48,10 @@
             "charges": 1,
             "recovery": "longRest",
             "lvl": 3,
-            "action": "action",
+            "use": {
+                "displayName": "Radiant Soul (Activate)",
+                "type": "action"
+            },
             "damageMod": {
                 "amount": "$Lvl"
             }
