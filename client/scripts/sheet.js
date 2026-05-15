@@ -126,6 +126,9 @@ function loadCharacter(json)
     fetchSubClass()
     fetchRace()
     fetchBackground()
+    if(char.features) {
+        char.features.forEach(addFeature)
+    }
     updateCharacter()
 }
 
@@ -141,7 +144,9 @@ function updateCharacter()
 
     document.getElementById('char.level').textContent = char.level
 
-    document.getElementById('char.init').innerHTML = addModSign(toMod(char.abilities.dex))
+    let dexMod = toMod(char.abilities.dex)
+    document.getElementById('char.init').innerHTML = addModSign(dexMod)
+    document.getElementById('char.ac').innerHTML = 10 + dexMod
     document.getElementById('char.speed').innerHTML = char.speed
     
     document.getElementById('char.maxHP').innerHTML = char.maxHp
@@ -163,6 +168,16 @@ function updateCharacter()
             el.innerHTML = capitalize(equip)
             equipProf.appendChild(el)
         })
+    }
+
+    if(char.inventory) {
+        char.inventory.forEach(addItem)
+    }
+    if (char.coinage) {
+        document.getElementById('pp').innerHTML = char.coinage.pp ?? 0
+        document.getElementById('gp').innerHTML = char.coinage.gp ?? 0
+        document.getElementById('sp').innerHTML = char.coinage.sp ?? 0
+        document.getElementById('cp').innerHTML = char.coinage.cp ?? 0
     }
 
     if (char.spells) {
@@ -202,29 +217,82 @@ function updateCharacter()
                 lvl5.appendChild(loadSpell(5, id))
             })
         }
+        for (let i = 1; i <= 5; i++) {
+            updateSpellSlots(i)
+        }
+    }
+}
+
+function updateSpellSlots(level) {
+    level = `lvl${level}`
+    if (char.spellSlots[level]) {
+        document.getElementById(`spells.${level}.slots`).innerHTML = `${char.spellSlots[level]-char.spellSlotsUsed[level]}/${char.spellSlots[level]} Remaning`
+    }
+}
+
+function makeDescriptionEls(parent, description, alt=null) {
+    if (typeof (description) == 'string') {
+        const desc = document.createElement('p')
+        desc.innerHTML = description
+        parent.appendChild(desc)
+    } else if(typeof(description) == 'object') {
+        description.forEach(line => {
+            const el = document.createElement('p')
+            el.innerHTML = line
+            parent.appendChild(el)
+        })
+    } else if(alt) {
+        const desc = document.createElement('p')
+        desc.innerHTML = alt
+        parent.appendChild(desc)
     }
 }
 
 function loadSpell(lvl, id) {
     const el = document.createElement('div')
-    el.classList.add("spellHeader")
+    el.classList.add("spellDiv")
     let atWill = false
+    let source = null
     if (typeof (id) == 'object') {
         atWill = id.atWill
+        source = id.source
         id = id.id
     }
-    fetch(`/data/spell/lvl${lvl}/${id}`).then(rsp => {
+    fetch(`data/spell/lvl${lvl}/${id}`).then(rsp => {
         return rsp.json()
     }).then(data => {
         const spell = Object.assign(new Spell(), data)
-        const name = document.createElement('h4')
+
+        let action = {
+            displayName: spell.displayName,
+            type: spell.castingTime,
+            damage: spell.damage,
+            healing: spell.healing,
+            save: spell.save,
+            halfSave: spell.halfSave,
+            range: spell.range
+        }
+        if (spell.damage && !(spell.save || spell.halfSave)) {
+            action.attackBonus = charClass.features.spellCasting.mod
+        }
+        addAction(action)
+        const name = document.createElement('button')
+        name.type = 'button'
+        const id = `item_${nextFeatId}`
+        nextFeatId++;
+        name.dataset.bsToggle = "collapse"
+        name.dataset.bsTarget = "#" + id
+
         name.classList.add("spellName")
         name.innerHTML = spell.displayName
         el.appendChild(name)
-        const tag = document.createElement('span')
+
         let t = ""
+        if (source != null) {
+            t += capitalize(source)+", "
+        }
         if (atWill) {
-            t = "At Will, "
+            t += "At Will, "
         }
         if (spell.castingTime == 'action') {
             t += "A"
@@ -232,6 +300,8 @@ function loadSpell(lvl, id) {
             t += "BA"
         } else if (spell.castingTime == 'reaction') {
             t += "R"
+        } else if (spell.castingTime == 'free') {
+            t += "F"
         }
         t += ", " + spell.components
         if (spell.range) {
@@ -250,12 +320,105 @@ function loadSpell(lvl, id) {
         } else if (spell.halfSave) {
             t += `, 1/2 ${abilityToName(spell.halfSave)} Save`
         }
-        tag.innerHTML = t
-        el.appendChild(tag)
+        el.appendChild(makeTag(t))
+        
+        const bodyDiv = document.createElement('div')
+        bodyDiv.classList.add("collapse")
+        bodyDiv.id = id
+        el.appendChild(bodyDiv)
+        makeDescriptionEls(bodyDiv, spell.description)
+
+        if (spell.higherLevels) {
+            const hl = document.createElement('p')
+            hl.innerHTML = `<b>At Higher Levels:</b>`
+            bodyDiv.appendChild(hl)
+            makeDescriptionEls(bodyDiv, spell.higherLevels.description)
+        }
     }).catch(err => {
         console.error(`Error loading spell`, err)
     })
     return el
+}
+
+function makeTag(text, type='p') {
+    const el = document.createElement(type)
+    el.classList.add('tag')
+    el.innerHTML = text
+    return el
+}
+
+const inventoryEl = document.getElementById('inventory')
+function addItem(item) {
+    if (item.id) {
+        // fetch the item
+        fetchItem(item)
+        return
+    }
+    const div = document.createElement('div')
+    div.classList.add('item')
+    inventoryEl.appendChild(div)
+
+    const name = document.createElement('button')
+    name.classList.add('featureName')
+    name.type = 'button'
+    const id = `item_${nextFeatId}`
+    nextFeatId++;
+    name.dataset.bsToggle = "collapse"
+    name.dataset.bsTarget = "#" + id
+    if(!item.count || item.count == 1)
+        name.innerHTML = item.displayName
+    else
+        name.innerHTML = `${item.displayName} (x${item.count})`
+    div.appendChild(name)
+    const bodyDiv = document.createElement('div')
+    bodyDiv.classList.add("collapse")
+    bodyDiv.id = id
+    div.appendChild(bodyDiv)
+    makeDescriptionEls(bodyDiv, item.description)
+    let isProcficent = false
+    if (item.armorType) {
+        bodyDiv.appendChild(makeTag(`${capitalize(item.armorType)} Armor`))
+        if (char.equipmentProficiencies.includes(`armor_${item.weaponType}`)) {
+            isProcficent = true
+        } else if (char.equipmentProficiencies.includes(item.id)) {
+            isProcficent = true
+        }
+        if (item.equiped) {
+            document.getElementById('char.ac').innerHTML = evalFunction(item.ac, char)
+        }
+    }
+    if (item.weaponType) {
+        bodyDiv.appendChild(makeTag(`${capitalize(item.weaponType)} Weapon`))
+        if (char.equipmentProficiencies.includes(`weapon_${item.weaponType}`)) {
+            isProcficent = true
+        } else if (char.equipmentProficiencies.includes(item.id)) {
+            isProcficent = true
+        }
+    }
+
+    if (item.use) {
+        if(isProcficent)
+            item.use.attackBonus += '+$PROF'
+        addAction(item.use)
+    } else if (item.uses) {
+        item.uses.forEach(use => {
+            if(isProcficent)
+                use.attackBonus += '+$PROF'
+            addAction(use)
+        })
+    }
+}
+
+function fetchItem(item) {
+    fetch(`data/item/${item.id}`).then(rsp => {
+        return rsp.json()
+    }).then(data => {
+        data.count = item.count
+        data.equiped = item.equiped
+        addItem(data)
+    }).catch(err => {
+        console.error(`Error loading item data`, err)
+    })
 }
 
 function abilityToName(id) {
@@ -278,8 +441,112 @@ function abilityToName(id) {
     }
 }
 
+const normalActionsEl = document.getElementById('normalActions')
+const bonusActionsEl = document.getElementById('bonusActions')
+const reactionsEl = document.getElementById('reactions')
+const freeActionsEl = document.getElementById('freeActions')
+function addAction(action) {
+    // console.log(action)
+    const el = document.createElement('div')
+    switch (action.type) {
+        case "action":
+            normalActionsEl.appendChild(el)
+            break;
+        case "bonusAciton":
+            bonusActionsEl.appendChild(el)
+            break;
+        case "reaction":
+            reactionsEl.appendChild(el)
+            break;
+        case "free":
+            freeActionsEl.appendChild(el)
+            break;
+    
+        default:
+            break;
+    }
+    const name = document.createElement('span')
+    name.innerHTML = action.displayName
+    el.appendChild(name)
+
+    let t = ''
+    if (action.attackBonus) {
+        if (t.length > 0)
+            t += ', '
+        t += addModSign(evalFunction(action.attackBonus, char))
+    }
+    if (action.save) {
+        if (t.length > 0)
+            t += ', '
+        t += `${abilityToName(action.save)} Save`
+    } else if (action.halfSave) {
+        if (t.length > 0)
+            t += ', '
+        t += `1/2 ${abilityToName(action.halfSave)} Save`
+    }
+    if (action.range) {
+        if (t.length > 0)
+            t += ', '
+        t += capitalize(action.range)
+    }
+    if (action.damage) {
+        if (t.length > 0)
+            t += ', '
+        t += interpFunction(action.damage, char)
+    }
+    if (action.healing) {
+        if (t.length > 0)
+            t += ', '
+        t += interpFunction(action.healing, char) + 'HP'
+    }
+    if (action.twoHanded) {
+        if (t.length > 0)
+            t += ', '
+        t += '2H'
+    }
+    if (t.length > 0)
+        el.appendChild(makeTag(t))
+}
+
+const featDiv = document.getElementById('char.features')
+let nextFeatId = 0
+function addFeature(feat) {
+    if(feat == undefined) {
+        console.error('Attempted to add feat, but was undefined')
+        return;
+    }
+    if (feat.hidden || feat.lvl > char.level) {
+        return;
+    }
+    if(feat.use) {
+        addAction(feat.use)
+    }
+    const div = document.createElement('div')
+    div.classList.add('feature')
+    featDiv.appendChild(div)
+    const name = document.createElement('button')
+    name.classList.add('featureName')
+    name.type = 'button'
+    const id = `feat_${nextFeatId}`
+    nextFeatId++;
+    name.dataset.bsToggle = "collapse"
+    name.dataset.bsTarget = "#"+id
+    name.innerHTML = feat.displayName
+    div.appendChild(name)
+    if (feat.source) {
+        div.appendChild(makeTag(feat.source))
+    } else {
+        div.appendChild(makeTag("Custom"))
+    }
+    const bodyDiv = document.createElement('div')
+    bodyDiv.classList.add("collapse")
+    bodyDiv.id = id
+    div.appendChild(bodyDiv)
+    makeDescriptionEls(bodyDiv, feat.description, 'No Description')
+}
+
 function fetchCharacter(charId) {
-    fetch(`/character/data/${charId}`).then(rsp => {
+    fetch(`character/data/${charId}`).then(rsp => {
         return rsp.json()
     }).then(data => {
         loadCharacter(data)
@@ -289,7 +556,7 @@ function fetchCharacter(charId) {
 }
 
 function fetchClass() {
-    fetch(`/data/class/${char.class}`).then(rsp => {
+    fetch(`data/class/${char.class}`).then(rsp => {
         return rsp.json()
     }).then(data => {
         charClass = Object.assign(new CharacterClass(), data)
@@ -301,8 +568,22 @@ function fetchClass() {
         if (charClass.features.spellCasting) {
             const spellCasting = charClass.features.spellCasting
             document.getElementById('spell.ability').innerHTML = abilityToName(spellCasting.ability)
-            document.getElementById('spell.modifier').innerHTML = addModSign(interpFunction(spellCasting.mod, char))
-            document.getElementById('spell.saveDC').innerHTML = interpFunction(spellCasting.save, char)
+            document.getElementById('spell.modifier').innerHTML = addModSign(evalFunction(spellCasting.mod, char))
+            document.getElementById('spell.saveDC').innerHTML = evalFunction(spellCasting.save, char)
+        }
+        for(let i = 1; i <= char.level; i++) {
+            charClass.levels[i].features.forEach(id => {
+                if(id == 'abilityScore')
+                    return
+                let feat = charClass.features[id]
+                if(!feat) {
+                    console.error(`Class menionted feature '${id}', but had no feature with that name defined`)
+                    return
+                }
+                if(!feat.source)
+                    feat.source = 'Class: '+charClass.displayName
+                addFeature(feat)
+            })
         }
     }).catch(err => {
         console.error(`Error loading class`, err)
@@ -312,43 +593,42 @@ function fetchClass() {
 function fetchSubClass() {
     if (char.subclass == '')
         return
-    fetch(`/data/subclass/${char.subclass}`).then(rsp => {
+    fetch(`data/subclass/${char.subclass}`).then(rsp => {
         return rsp.json()
     }).then(data => {
         charSubClass = Object.assign(new CharacterSubClass(), data)
         if (charClass != null)
             document.getElementById('char.class').textContent = `${charSubClass.displayName} ${charClass.displayName}`
+        
+        for(let i = 1; i <= char.level; i++) {
+            charSubClass.levels[i].features.forEach(id => {
+                if(id == 'abilityScore')
+                    return
+                let feat = charSubClass.features[id]
+                if(!feat) {
+                    console.error(`Class menionted feature '${id}', but had no feature with that name defined`)
+                    return
+                }
+                if(!feat.source)
+                    feat.source = 'Subclass: '+charSubClass.displayName
+                addFeature(feat)
+            })
+        }
     }).catch(err => {
-        console.error(`Error loading sub class`, err)
+        console.error(`Error loading subclass`, err)
     })
 }
 
 function fetchRace() {
-    fetch(`/data/race/${char.race}`).then(rsp => {
+    fetch(`data/race/${char.race}`).then(rsp => {
         return rsp.json()
     }).then(data => {
         charRace = Object.assign(new CharacterRace(), data)
         document.getElementById('char.race').textContent = charRace.displayName
-        const featDiv = document.getElementById('char.features')
         charRace.features.forEach(feat => {
-            const div = document.createElement('div')
-            div.classList.add('feature')
-            featDiv.appendChild(div)
-            const name = document.createElement('p')
-            name.classList.add('featureName')
-            name.innerHTML = feat.displayName
-            div.appendChild(name)
-            if (typeof (feat.description) == 'string') {
-                const desc = document.createElement('p')
-                desc.innerHTML = feat.description
-                div.appendChild(desc)
-            } else {
-                feat.description.forEach(line => {
-                    const el = document.createElement('p')
-                    el.innerHTML = line
-                    div.appendChild(el)
-                })
-            }
+            if(!feat.source)
+                feat.source = 'Race: '+charRace.displayName
+            addFeature(feat)
         })
     }).catch(err => {
         console.error(`Error loading race`, err)
@@ -356,31 +636,16 @@ function fetchRace() {
 }
 
 function fetchBackground() {
-    fetch(`/data/background/${char.background}`).then(rsp => {
+    fetch(`data/background/${char.background}`).then(rsp => {
         return rsp.json()
     }).then(data => {
         charBackground = Object.assign(new Background(), data)
         document.getElementById('char.background').textContent = charBackground.displayName
         const featDiv = document.getElementById('char.features')
         charBackground.features.forEach(feat => {
-            const div = document.createElement('div')
-            div.classList.add('feature')
-            featDiv.appendChild(div)
-            const name = document.createElement('p')
-            name.classList.add('featureName')
-            name.innerHTML = feat.displayName
-            div.appendChild(name)
-            if (typeof (feat.description) == 'string') {
-                const desc = document.createElement('p')
-                desc.innerHTML = feat.description
-                div.appendChild(desc)
-            } else {
-                feat.description.forEach(line => {
-                    const el = document.createElement('p')
-                    el.innerHTML = line
-                    div.appendChild(el)
-                })
-            }
+            if (!feat.source)
+                feat.source = `Background: ${charBackground.displayName}`
+            addFeature(feat)
         })
     }).catch(err => {
         console.error(`Error loading background`, err)

@@ -6,15 +6,16 @@ const path = require('path')
 const nodeUrl = require('url');
 const { error } = require('console');
 
-const config = {
-    host: "127.0.0.1",
-    port: 14011,
-    basePath: "C:/Users/pcral/Documents/DnD/VirtualCharacterSheet/"
-}
+// const config = {
+//     host: "127.0.0.1",
+//     port: 14011,
+//     basePath: "C:/Users/pcral/Documents/DnD/VirtualCharacterSheet/"
+// }
+const config = require("../config.json")
 
 const server = createServer((req, res) => {
     const { method, url, headers } = req;
-    console.log(`Msg '${url}'`)
+    // console.log(`Msg '${url}'`)
     try {
 
         let body = "";
@@ -77,6 +78,9 @@ const server = createServer((req, res) => {
                 case 'background':
                     returnFile(res, '../data/background/'+parts[3]+'.json', 'application/json')
                     return;
+                case 'item':
+                    returnFile(res, '../data/item/'+parts[3]+'.json', 'application/json')
+                    return;
                 case 'spell':
                     if (!parts[3].startsWith("lvl")) {
                         res.statusCode = 400
@@ -110,6 +114,7 @@ const server = createServer((req, res) => {
         return
     }
 
+    console.log(`Unknown page: '${url}'`)
     res.statusCode = 404
     res.setHeader('Content-Type', 'text/plain')
     res.end('How did you get here?\n')
@@ -154,7 +159,7 @@ function returnFile(res, path, type = "text/plain") {
 }
 
 const readline = require('readline');
-const { json } = require('stream/consumers');
+const { json } = import('stream-consumers');
 
 const rl = readline.createInterface({
     input: process.stdin,

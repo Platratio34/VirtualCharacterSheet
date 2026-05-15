@@ -1,0 +1,1 @@
+screen -d -m -S virtual-charater-sheet ./runLoop.sh

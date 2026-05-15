@@ -21,7 +21,6 @@ function capitalize(str)
 {
     return (str.charAt(0).toUpperCase() + str.slice(1)).replace('_', ' ')
 }
-
 function interpFunction(func, char) {
     func = func.replace('$STR', toMod(char.abilities.str))
     func = func.replace('$DEX', toMod(char.abilities.dex))
@@ -30,5 +29,9 @@ function interpFunction(func, char) {
     func = func.replace('$WIS', toMod(char.abilities.wis))
     func = func.replace('$CHA', toMod(char.abilities.cha))
     func = func.replace('$PROF', char.proficiencyBonus)
-    return eval(func)
+    func = func.replace('$LVL', char.level)
+    return func
+}
+function evalFunction(func, char) {
+    return eval(interpFunction(func, char))
 }

@@ -106,6 +106,36 @@
         .spellName {
             font-weight: bold;
         }
+
+        .feature button {
+            border: none;
+            background: none;
+            color: inherit;
+        }
+
+        #inventory button {
+            border: none;
+            background: none;
+            color: inherit;
+        }
+
+        button.spellName {
+            border: none;
+            background: none;
+            color: inherit;
+        }
+
+        .tag {
+            font-style: italic;
+            color: #c0c0c0;
+            margin-top: 0pt;
+            margin-bottom: 0pt;
+        }
+
+        .spellDiv p {
+            margin-bottom: 5pt;
+            line-height: 1.1;
+        }
     </style>
 </head>
 
@@ -256,8 +286,38 @@
                         <h4 id="char.hp" class="centered"></h4>
                         <p>Temp: <span id="char.tempHP"></span></p>
                     </div>
+                    <div class="row boxed">
+                        <h3>Actions</h3>
+                        <h4>Normal Actions</h4>
+                        <div id="normalActions"></div>
+                        <h4>Bonus Actions</h4>
+                        <div id="bonusActions"></div>
+                        <h4>Reactions</h4>
+                        <div id="reactions"></div>
+                        <h4>Free Actions</h4>
+                        <div id="freeActions"></div>
+                    </div>
+                    <div class="row boxed">
+                        <h3>Inventory</h3>
+                        <div id="inventory"></div>
+                        <hr>
+                        <h3>Coinage</h3>
+                        <table>
+                            <tr>
+                                <th>PP</th>
+                                <th>GP</th>
+                                <th>SP</th>
+                                <th>CP</th>
+                            </tr>
+                            <tr>
+                                <td id="pp"></td>
+                                <td id="gp"></td>
+                                <td id="sp"></td>
+                                <td id="cp"></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-                <h3>Actions</h3>
             </div>
             <div class="col boxed">
                 <h3>Features and Traits</h3>
@@ -266,6 +326,7 @@
         </div>
     </div>
     <div class="container" id="spells">
+        <hr>
         <h2>Spellcasting</h2>
         <div class="row">
             <div class="col-sm">
