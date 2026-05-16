@@ -1,7 +1,7 @@
 {
     "displayName": "Kyren",
     "levels": {
-        "1": {"features": ["expandedSpellList","theStone","theSight","protection"]},
+        "1": {"features": ["expandedSpellList","theStone","theSight"]},
         "2": {"features": []},
         "3": {"features": ["protection"]}
     },
