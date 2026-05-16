@@ -37,7 +37,7 @@
         },
         "pactBoon": {
             "displayName": "Pact Boon",
-            "description": "At 3rd level, your otherworldly patron bestows a gift upon you for your loyal service. You gain one of the following features of your choice.",
+            "description": "At 3rd level, your otherworldly patron bestows a gift upon you for your loyal service.",
             "lvl": 3
         }
     }
