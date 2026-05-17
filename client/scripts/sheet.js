@@ -515,6 +515,8 @@ function addAction(action) {
 
 const featDiv = document.getElementById('char.features')
 let nextFeatId = 0
+let _featureCache = {}
+let _featureOrder = []
 function addFeature(feat) {
     if(feat == undefined) {
         console.error('Attempted to add feat, but was undefined')
@@ -523,10 +525,20 @@ function addFeature(feat) {
     if (feat.hidden || feat.lvl > char.level) {
         return;
     }
-    if(feat.use) {
-        addAction(feat.use)
-    }
+
+    if (!feat.source)
+        feat.source = "Custom"
+
+    // if (!_featureCache[feat.source]) {
+    //     _featureCache[feat.source] = []
+    //     _featureOrder.push(feat.source)
+    //     _featureOrder.sort((a, b) => a.localeCompare(b))
+    // }
+    // _featureCache[feat.source].push(feat)
+    // _featureCache[feat.source].sort((a, b) => a.displayName.localeCompare(b.displayName))
+
     const div = document.createElement('div')
+    feat._div = div
     div.classList.add('feature')
     featDiv.appendChild(div)
     const name = document.createElement('button')
@@ -548,6 +560,20 @@ function addFeature(feat) {
     bodyDiv.id = id
     div.appendChild(bodyDiv)
     makeDescriptionEls(bodyDiv, feat.description, 'No Description')
+    
+    if (feat.use) {
+        addAction(feat.use)
+    }
+    // _reorderFeatures()
+}
+
+function _reorderFeatures() {
+    for (let i = 0; i < _featureOrder.length; i++) {
+        let features = _featureCache[_featureOrder[i]]
+        for (let j = 0; j < features.length; j++) {
+            featDiv.appendChild(features[j]._div)
+        }
+    }
 }
 
 function fetchCharacter(characterId) {

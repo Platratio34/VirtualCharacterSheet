@@ -1,5 +1,5 @@
 @echo off
 :loop
     node server.js
-    timeout /t 15
+    timeout /t 5
 goto loop

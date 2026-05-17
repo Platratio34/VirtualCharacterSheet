@@ -8,8 +8,9 @@ const { error } = require('console');
 
 // const config = {
 //     host: "127.0.0.1",
-//     port: 14011,
-//     basePath: "C:/Users/pcral/Documents/DnD/VirtualCharacterSheet/"
+//     port: [port],
+//     basePath: "[basePath]",
+//     password: "[savePassword"
 // }
 const config = require("../config.json")
 

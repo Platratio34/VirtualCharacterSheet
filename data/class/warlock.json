@@ -27,7 +27,7 @@
             "description": "At 1st level, you have struck a bargain with an otherworldly being of your choice. Your choice grants you features at 1st level and again at 6th, 10th, and 14th level."
         },
         "eldrichInvocations": {
-            "displayName": "EldrichInvocations",
+            "displayName": "Eldrich Invocations",
             "description": [
                 "In your study of occult lore, you have unearthed Eldritch Invocations, fragments of forbidden knowledge that imbue you with an abiding magical ability.",
                 "At 2nd level, you gain two eldritch invocations of your choice. When you gain certain warlock levels, you gain additional invocations of your choice, as shown in the Invocations Known column of the Warlock table. A level prerequisite refers to your level in this class.",
