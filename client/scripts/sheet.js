@@ -6,6 +6,7 @@ let charBackground = null
 let charId = getQueryParam("id") ?? 'ventris'
 
 let dirty = false
+let badPsw = false
 function makeDirty() {
     if (!dirty)
         console.log("Marked dirty")
@@ -683,9 +684,19 @@ function fetchBackground() {
     })
 }
 
+let _cahcedBadPsw = ''
 function saveCharacter(id = charId) {
+    const psw = localStorage.getItem('vcs_password')
+    if (!psw) {
+        return;
+    } else if(badPsw) {
+        if(badPsw == psw)
+            return
+        badPsw = false;
+        _cahcedBadPsw = null
+    }
     let msg = {
-        password: localStorage.getItem('vcs_password'),
+        password: psw,
         id: id,
         char: char
     }
@@ -697,9 +708,20 @@ function saveCharacter(id = charId) {
         },
         body: JSON.stringify(msg)
     }).then(response => {
-        response.text().then(text => console.log(`Save response: ${text}`))
-        if (!response.ok)
+        response.text().then(text => {
+            if(!response.ok)
+                console.warn(`Save error response: ${text}`)
+            else
+                console.log(`Save response: ${text}`)
+            if(response.status == 401) {
+                console.warn('Incorrect password detected, save will not be attempted until it has changed')
+                badPsw = true
+                _cahcedBadPsw = psw
+            }
+        })
+        if (!response.ok) {
             makeDirty()
+        }
     }).catch(error => {
         console.error(`Save Error: ${error}`)
         makeDirty()
