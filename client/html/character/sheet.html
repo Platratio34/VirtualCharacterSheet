@@ -293,7 +293,7 @@
                         <p>Max: <span id="char.maxHP"></span></p>
                         <div>
                             <h4 id="char.hp" class="centered"></h4>
-                            <input type="number" id="inp_hpChange">
+                            <input type="number" id="inp_hpChange" value="1">
                             <button type="button" onclick='damage(Number(document.getElementById("inp_hpChange").value))'>Damage</button>
                             <button type="button" onclick='modifyHP(Number(document.getElementById("inp_hpChange").value))'>Heal</button>
                             <button type="button" onclick='setHP(Number(document.getElementById("inp_hpChange").value))'>Set</button>
@@ -348,19 +348,19 @@
             <div class="col-sm">
                 <div class="abilityBox boxed">
                     <h4>Spellcasting Ability</h4>
-                    <h4 id="spell.ability">Charisma</h4>
+                    <h4 id="spell.ability">-</h4>
                 </div>
             </div>
             <div class="col-sm">
                 <div class="abilityBox boxed">
                     <h4>Spellcasting Modifier</h4>
-                    <h4 class="modifer" id="spell.modifier">0</h4>
+                    <h4 class="modifer" id="spell.modifier">-</h4>
                 </div>
             </div>
             <div class="col-sm">
                 <div class="abilityBox boxed">
                     <h4>Spell Save DC</h4>
-                    <h4 id="spell.saveDC">0</h4>
+                    <h4 id="spell.saveDC">-</h4>
                 </div>
             </div>
         </div>

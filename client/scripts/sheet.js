@@ -402,7 +402,13 @@ function addItem(item) {
         }
     }
 
-    if (item.use) {
+    if (item.actions) {
+        item.actions.forEach(action => {
+            if(isProcficent)
+                action.attackBonus += '+$PROF'
+            addAction(action)
+        })
+    } else if (item.use) {
         if(isProcficent)
             item.use.attackBonus += '+$PROF'
         addAction(item.use)
@@ -562,7 +568,9 @@ function addFeature(feat) {
     div.appendChild(bodyDiv)
     makeDescriptionEls(bodyDiv, feat.description, 'No Description')
     
-    if (feat.use) {
+    if (feat.actions) {
+        feat.actions.forEach(addAction)
+    } else if (feat.use) {
         addAction(feat.use)
     }
     // _reorderFeatures()
