@@ -875,6 +875,24 @@ function updateNotes(el) {
     makeDirty()
 }
 
+const featureAddName = document.getElementById('feature_add_displayName')
+const featureAddSource = document.getElementById('feature_add_source')
+const featureAddDescription = document.getElementById('feature_add_description')
+function addFormFeature() {
+    let feature = {
+        displayName: featureAddName.value,
+        source: featureAddSource.value,
+        description: featureAddDescription.value
+    }
+    if(feature.description.includes('\n')) {
+        feature.description = feature.description.split('\n')
+    }
+    console.log(feature)
+    addFeature(feature)
+    char.features.push(feature)
+    makeDirty()
+}
+
 fetchCharacter(getQueryParam("id") || 'ventris')
 
 setInterval(() => {

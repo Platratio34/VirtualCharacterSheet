@@ -115,7 +115,8 @@ async function processRequest(req, res) {
                 if (body.password == null) {
                     returnText(res, 400, 'Missing password')
                     return
-                } else if (body.password != config.password) {
+                }
+                if (!checkPassword(body.id, body.password)) {
                     console.warn(`Character save attempted with invald password`)
                     returnText(res, 401, 'Invalid password')
                     return
@@ -154,6 +155,14 @@ async function processRequest(req, res) {
     res.end('How did you get here?\n')
     console.warn(`Got invalid url: '${url}'`)
     return
+}
+
+function checkPassword(charId, password) {
+    if(password == config.password) {
+        return true;
+    }
+    
+    return false
 }
 
 server.listen(config.port, config.host, () => {

@@ -342,6 +342,17 @@
             <div class="col boxed">
                 <h3>Features and Traits</h3>
                 <div id="char.features"></div>
+                <div style="bottom:0;position:relative">
+                    <button data-bs-toggle="collapse" data-bs-target="#addFeature">Add Feature</button>
+                    <div id="addFeature" class="collapse">
+                        Name: <input type="text" id="feature_add_displayName"><br>
+                        Source: <input type="text" id="feature_add_source" value="Custom"><br>
+                        Description:
+                        <br><textarea id="feature_add_description" rows="4" style="width:100%"></textarea>
+                        <br>
+                        <button onclick="addFormFeature()">Add</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
