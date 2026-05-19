@@ -1,3 +1,4 @@
 {
-    "displayName": "Crossbow Bolt"
+    "displayName": "Crossbow Bolt",
+    "properties": ["aummunition"]
 }

@@ -12,5 +12,6 @@
         "attackBonus": "$STR",
         "range": "30/120"
     }],
-    "weaponType": "simple"
+    "weaponType": "simple",
+    "properties": ["thrown"]
 }

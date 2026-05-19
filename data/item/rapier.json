@@ -6,5 +6,6 @@
         "damage": "1d8 + $STR Piercing",
         "attackBonus": "$STR"
     }],
-    "weaponType": "martial"
+    "weaponType": "martial",
+    "properties": ["finesse"]
 }

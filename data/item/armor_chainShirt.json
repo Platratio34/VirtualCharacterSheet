@@ -1,0 +1,5 @@
+{
+    "displayName": "Chain Shirt",
+    "ac": "13+$max($DEX,2)",
+    "armorType": "medium"
+}

@@ -12,5 +12,6 @@
         "attackBonus": "$DEX",
         "range": "20/60"
     }],
-    "weaponType": "simple"
+    "weaponType": "simple",
+    "properties": ["finess", "light", "thrown"]
 }

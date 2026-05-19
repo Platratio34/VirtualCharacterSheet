@@ -12,5 +12,6 @@
         "attackBonus": "$STR",
         "twoHanded": true
     }],
-    "weaponType": "simple"
+    "weaponType": "simple",
+    "properties": ["versatile"]
 }

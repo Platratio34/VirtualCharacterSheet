@@ -1,0 +1,5 @@
+{
+    "displayName": "Halfplate Armor",
+    "ac": "15+$max($DEX,2)",
+    "armorType": "medium"
+}

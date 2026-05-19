@@ -8,5 +8,6 @@
         "range": "80/320",
         "twoHanded": true
     },
-    "weaponType": "simple"
+    "weaponType": "simple",
+    "properties": ["ammunition", "loading", "two_handed"]
 }

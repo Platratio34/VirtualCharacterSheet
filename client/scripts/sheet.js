@@ -362,15 +362,19 @@ function makeTag(text, type='p') {
 }
 
 const inventoryEl = document.getElementById('inventory')
+// let inventoryEls = []
 function addItem(item) {
+    const div = item._div ? item._div : document.createElement('div')
+    if (!item._div) {
+        div.classList.add('item')
+        inventoryEl.appendChild(div)
+        item._div = div
+    }
     if (item.id) {
         // fetch the item
         fetchItem(item)
         return
     }
-    const div = document.createElement('div')
-    div.classList.add('item')
-    inventoryEl.appendChild(div)
 
     const name = document.createElement('button')
     name.classList.add('featureName')
@@ -388,10 +392,10 @@ function addItem(item) {
     bodyDiv.classList.add("collapse")
     bodyDiv.id = id
     div.appendChild(bodyDiv)
-    makeDescriptionEls(bodyDiv, item.description)
     let isProcficent = false
+    let tag = ''
     if (item.armorType) {
-        bodyDiv.appendChild(makeTag(`${capitalize(item.armorType)} Armor`))
+        tag += `${capitalize(item.armorType)} Armor (${cleanFunction(item.ac, char)})`
         if (char.equipmentProficiencies.includes(`armor_${item.weaponType}`)) {
             isProcficent = true
         } else if (char.equipmentProficiencies.includes(item.id)) {
@@ -402,12 +406,24 @@ function addItem(item) {
         }
     }
     if (item.weaponType) {
-        bodyDiv.appendChild(makeTag(`${capitalize(item.weaponType)} Weapon`))
+        tag += `${capitalize(item.weaponType)} Weapon`
         if (char.equipmentProficiencies.includes(`weapon_${item.weaponType}`)) {
             isProcficent = true
         } else if (char.equipmentProficiencies.includes(item.id)) {
             isProcficent = true
         }
+    }
+    if (item.properties)
+        item.properties.forEach(prop => {
+            if (tag.length > 0)
+                tag += ", "
+                tag += capitalize(prop)
+        })
+    if (tag.length > 0) {
+        bodyDiv.appendChild(makeTag(tag))
+    }
+    if (item.description) {
+        makeDescriptionEls(bodyDiv, item.description)
     }
 
     if (item.actions) {
@@ -435,6 +451,7 @@ function fetchItem(item) {
     }).then(data => {
         data.count = item.count
         data.equiped = item.equiped
+        data._div = item._div
         if(item.displayName)
             data.displayName = item.displayName
         addItem(data)
@@ -514,12 +531,12 @@ function addAction(action) {
     if (action.damage) {
         if (t.length > 0)
             t += ', '
-        t += interpFunction(action.damage, char)
+        t += interpFunction(action.damage, char, true)
     }
     if (action.healing) {
         if (t.length > 0)
             t += ', '
-        t += interpFunction(action.healing, char) + 'HP'
+        t += interpFunction(action.healing, char, true) + 'HP'
     }
     if (action.twoHanded) {
         if (t.length > 0)
@@ -724,7 +741,12 @@ function saveCharacter(id = charId) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(msg)
+        body: JSON.stringify(msg, (k, v) => {
+            if (k == '_el' || k == '_div' || k.startsWith("__")) {
+                return undefined
+            }
+            return v
+        })
     }).then(response => {
         response.text().then(text => {
             if(!response.ok)

@@ -1,0 +1,5 @@
+{
+    "displayName": "Hide Armor",
+    "ac": "12+$max($DEX,2)",
+    "armorType": "medium"
+}

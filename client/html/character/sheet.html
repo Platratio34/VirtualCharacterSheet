@@ -140,6 +140,10 @@
         .coinInput {
             width: 100%
         }
+
+        #actionList h4 {
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -170,7 +174,7 @@
             <div class="col-sm">
                 <div class="container">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-auto">
                             <h3>Attributes</h3>
                             <div class="abilityBox boxed">
                                 <h4>Strength</h4>
@@ -208,7 +212,7 @@
                                 <div class="value" id="ability.cha.val">[Value]</div>
                             </div>
                         </div>
-                        <div class="col-sm">
+                        <div class="col-md">
                             <div class="boxed2">
                                 <h4>Proficiency Bonus: <span id="profBonus" class="modifierProf">+2</span></h4>
                             </div>
@@ -302,7 +306,7 @@
                             Temp: <input type="number" id="char.tempHP" onchange="setTempHp()">
                         </div>
                     </div>
-                    <div class="row boxed">
+                    <div class="row boxed" id="actionList">
                         <h3>Actions</h3>
                         <h4>Normal Actions</h4>
                         <div id="normalActions"></div>
