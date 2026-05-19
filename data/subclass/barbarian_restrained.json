@@ -1,0 +1,22 @@
+{
+    "displayName": "Restrained",
+    "levels": {
+        "1": {"features": []},
+        "2": {"features": []},
+        "3": {"features": ["focus"]},
+        "4": {"features": []},
+        "5": {"features": []},
+        "6": {"features": ["mindlessRage"]}
+    },
+    "features": {
+        "focus": {
+            "displayName": "Focus",
+            "description": "Starting when you choose this path at 3rd level, you can go into a focus when you rage. If you do so, for the duration of your rage you can [??]. When your rage ends, you suffer one level of exhaustion."
+        },
+       
+        "mindlessRage": {
+            "displayName": "Mindless Rage",
+            "description": "Beginning at 6th level, you can't be charmed or frightened while raging. If you are charmed or frightened when you enter your rage, the effect is suspended for the duration of the rage."
+        }
+    }
+}

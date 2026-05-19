@@ -1,0 +1,16 @@
+{
+    "displayName": "Javelin",
+    "actions": [{
+        "displayName": "Javelin",
+        "type": "action",
+        "damage": "1d6 + $STR Bludgeoning",
+        "attackBonus": "$STR"
+    },{
+        "displayName": "Javelin (Thrown)",
+        "type": "action",
+        "damage": "1d6 + $STR Bludgeoning",
+        "attackBonus": "$STR",
+        "range": "30/120"
+    }],
+    "weaponType": "simple"
+}

@@ -1,0 +1,10 @@
+{
+    "displayName": "Rapier",
+    "actions": [{
+        "displayName": "Rapier",
+        "type": "action",
+        "damage": "1d8 + $STR Piercing",
+        "attackBonus": "$STR"
+    }],
+    "weaponType": "martial"
+}

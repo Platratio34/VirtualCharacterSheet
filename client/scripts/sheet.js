@@ -164,6 +164,14 @@ function updateCharacter() {
             equipProf.appendChild(el)
         })
     }
+    if (char.otherProficiencies) {
+        const otherProf = document.getElementById('char.otherProficiencies')
+        char.otherProficiencies.forEach(prof => {
+            const el = document.createElement('p')
+            el.innerHTML = capitalize(prof)
+            otherProf.appendChild(el)
+        })
+    }
 
     if(char.inventory) {
         char.inventory.forEach(addItem)
@@ -427,6 +435,8 @@ function fetchItem(item) {
     }).then(data => {
         data.count = item.count
         data.equiped = item.equiped
+        if(item.displayName)
+            data.displayName = item.displayName
         addItem(data)
     }).catch(err => {
         console.error(`Error loading item data`, err)

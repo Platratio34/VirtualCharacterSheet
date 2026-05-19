@@ -15,7 +15,7 @@ function toMod(value) {
 }
 
 function capitalize(str) {
-    return (str.charAt(0).toUpperCase() + str.slice(1)).replace('_', ' ')
+    return (str.charAt(0).toUpperCase() + str.slice(1)).replace('_', ' ').replace(/([a-z])([A-Z])/g, '$1 $2')
 }
 function interpFunction(func, char) {
     func = func.replace('$STR', toMod(char.abilities.str))

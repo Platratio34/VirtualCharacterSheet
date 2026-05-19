@@ -1,0 +1,15 @@
+{
+    "displayName": "Knight of the Order",
+    "source": "Sword Coast Adventurer's Guide",
+    "skillProficiencies": ["persuasion",["arcana", "history", "nature", "religion"]],
+    "otherProficiencies": [["gamingSet","musicalInstrument"]],
+    "languagesProficiencies": {"count": 1},
+    "startingEquipment": [
+        [
+            ["A set of traveler's clothes"],
+            ["A signet, banner, or seal representing your place or rank in the order"],
+            ["Pouch (5gp)"]
+        ]
+    ],
+    "features": []
+}
