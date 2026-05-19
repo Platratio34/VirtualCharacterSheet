@@ -8,64 +8,98 @@
     "levels": {
         "1": {"prof": 2, "cantrips": 2, "spells": 4, "spellSlots": {"1": 2}, "features": ["spellCasting", "bardicInspiration_d6"] },
         "2": {"prof": 2, "cantrips": 2, "spells": 5, "spellSlots": {"1": 3}, "features": ["joat", "songOfRest_d6"] },
-        "3": {"prof": 2, "cantrips": 2, "spells": 6, "spellSlots": {"1": 4, "2": 2}, "features": ["subclass", "expertise"] },
+        "3": {"prof": 2, "cantrips": 2, "spells": 6, "spellSlots": {"1": 4, "2": 2}, "features": ["expertise"] },
         "4": {"prof": 2, "cantrips": 3, "spells": 7, "spellSlots": {"1": 4, "2": 3}, "features": ["abilityScore"] },
         "5": {"prof": 3, "cantrips": 3, "spells": 8, "spellSlots": {"1": 4, "2": 3, "3": 2}, "features": ["fontOfInspiration", "bardicInspiration_d8"] },
-        "6": {"prof": 3, "cantrips": 3, "spells": 9, "spellSlots": {"1": 4, "2": 3, "3": 3}, "features": ["countercharm", "subclassFeature_lv6"] }
+        "6": {"prof": 3, "cantrips": 3, "spells": 9, "spellSlots": {"1": 4, "2": 3, "3": 3}, "features": ["countercharm"] }
     },
     "features": {
         "spellCasting": {
+            "displayName": "Spellcasting",
+            "description": "You have learned to untangle and reshape the fabric of reality in harmony with your wishes and music. Your spells are part of your vast repertoire, magic that you can tune to different situations.",
             "ability": "cha",
+            "mod": "$PROF+$CHA",
+            "save": "8+$PROF+$CHA",
             "ritual": true,
-            "focus": "instrument"
+            "focus": "instrument",
+            "recovery": "longRest"
         },
         "bardicInspiration_d6": {
-            "resource": {
-                "id": "bardicInspiration",
-                "max": "cha",
-                "maxMin": 1,
-                "regain": "longRest"
+            "displayName": "Bardic Inspiration",
+            "description": [
+                "You can inspire others through stirring words or music. To do so, you use a bonus action on your turn to choose one creature other than yourself within 60 feet of you who can hear you. That creature gains one Bardic Inspiration die, a d6.",
+                "Once within the next 10 minutes, the creature can roll the die and add the number rolled to one ability check, attack roll, or saving throw it makes. The creature can wait until after it rolls the d20 before deciding to use the Bardic Inspiration die, but must decide before the DM says whether the roll succeeds or fails. Once the Bardic Inspiration die is rolled, it is lost. A creature can have only one Bardic Inspiration die at a time.",
+                "You can use this feature a number of times equal to your Charisma modifier (a minimum of once). You regain any expended uses when you finish a long rest.",
+                "Your Bardic Inspiration die changes when you reach certain levels in this class. The die becomes a d8 at 5th level, a d10 at 10th level, and a d12 at 15th level."
+            ],
+            "resources": {
+                "bardicInspiration": {
+                    "displayName": "Bardic Inspiration",
+                    "max": "cha",
+                    "maxMin": 1,
+                    "regain": "longRest"
+                }
             },
-            "use": {
-                "action": "bonusAction",
+            "actions": [{
+                "displayName": "Bardic Inspiration",
+                "type": "bonusAction",
                 "target": "creature",
-                "range": 60,
+                "range": "60",
                 "qualifier": "Target must be able to hear it",
                 "effect": "Target gains 1 Bardic Inspiration die (d6)",
-                "useResource": { "id": "bardicInspiration", "amount": 1 }
-            }
+                "useResource": { "bardicInspiration": 1 }
+            }]
         },
         "bardicInspiration_d8": {
+            "displayName": "Bardic Inspiration",
             "modifies":"bardicInspiration_d6",
             "use": {
                 "effect": "Target gains 1 Bardic Inspiration die (d8)"
             }
         },
-        "songOfRest_d6": {},
-        "joat": {},
+        "songOfRest_d6": {
+            "displayName": "Song of Rest",
+            "description": [
+                "Beginning at 2nd level, you can use soothing music or oration to help revitalize your wounded allies during a short rest. If you or any friendly creatures who can hear your performance regain hit points at the end of the short rest by spending one or more Hit Dice, each of those creatures regains an extra 1d6 hit points.",
+                "The extra Hit Points increase when you reach certain levels in this class: to 1d8 at 9th level, to 1d10 at 13th level, and to 1d12 at 17th level."
+            ]
+        },
+        "joat": {
+            "displayName": "Jack of All Trades",
+            "description": "Starting at 2nd level, you can add half your proficiency bonus, rounded down, to any ability check you make that doesn't already include your proficiency bonus."
+        },
         "expertise": {
+            "displayName": "Expertiese",
+            "description": [
+                "At 3rd level, choose two of your skill proficiencies. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies.",
+                "At 10th level, you can choose another two skill proficiencies to gain this benefit."
+            ],
             "onLevelUp": {
                 "addExpertise": 2
             }
         },
         "fontOfInspiration": {
-            "modifies": "bardicInspiration_d6",
-            "resource": {
-                "id": "bardicInspiration",
-                "regain": ["shortRest", "longRest"]
+            "displayName": "Font of Inspiration",
+            "description": "Beginning when you reach 5th level, you regain all of your expended uses of Bardic Inspiration when you finish a short or long rest.",
+            "resources": {
+                "bardicInspiration": {
+                    "recovery": "shortRest"
+                }
             }
         },
         "countercharm": {
-            "use": {
-                "action": "action",
+            "displayName": "Countercharm",
+            "actions": [{
+                "displayName": "Countercharm",
+                "type": "action",
                 "target": "creature",
                 "maxTargets": -1,
-                "range": 30,
+                "range": "30",
                 "duration": 1,
                 "qualifier": "Target must be able to hear it",
                 "effect": "Targets have advantage on saving throws",
                 "ends": ["Silenced", "Incapacitated", "At Will"]
-            }
+            }]
         }
     }
 }

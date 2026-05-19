@@ -24,6 +24,7 @@
             "description": "As an action, you can touch a creature and cause it to regain a number of hit points equal to your level. Once you use this trait, you can't use it again until you finish a long rest.",
             "resouces": {
                 "healingHands": {
+                    "displayName": "Healing Hands",
                     "max": 1,
                     "recovery": "longRest"
                 }
@@ -42,7 +43,7 @@
             "displayName": "Light Bearer",
             "source": "Race: Aasimar",
             "description": "You know the Light cantrip. Charisma is your spellcasting ability for it.",
-            "spells": ["lvl0/light"]
+            "spells": {"lvl0": ["light"]}
         },
         {
             "displayName": "Radiant Soul",
@@ -59,13 +60,13 @@
                 }
             },
             "lvl": 3,
-            "use": {
+            "actions": [{
                 "displayName": "Radiant Soul (Activate)",
                 "type": "action",
                 "consumeResouce": {
                     "radiantSoul": 1
                 }
-            },
+            }],
             "damageMod": {
                 "radiantSoul": {
                     "amount": "$Lvl"

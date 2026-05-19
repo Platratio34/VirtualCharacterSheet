@@ -219,6 +219,8 @@ function updateCharacter() {
             updateSpellSlots(i)
         }
     }
+
+    document.getElementById('char.notes').value = char.notes ?? ''
 }
 
 function updateSpellSlots(level) {
@@ -863,6 +865,13 @@ function shortRest() {
     }
     for (let i = 1; i <= 5; i++)
         updateSpellSlots(i)
+    makeDirty()
+}
+
+function updateNotes(el) {
+    if (char.notes == el.value)
+        return
+    char.notes = el.value
     makeDirty()
 }
 

@@ -14,7 +14,23 @@
         },
         {
             "displayName": "Relentless Endurance",
-            "description": "When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. You can't use this feature again until you finish a long rest."
+            "description": "When you are reduced to 0 hit points but not killed outright, you can drop to 1 hit point instead. You can't use this feature again until you finish a long rest.",
+            "resources": {
+                "relentlessEndurance": {
+                    "displayName": "Relentless Endurance",
+                    "max": 1,
+                    "recovery": "longRest"
+                }
+            },
+            "actions": [
+                {
+                    "displayName": "Relentless Endurance",
+                    "type": "free",
+                    "consumeResouce": {
+                        "relentlessEndurance": 1
+                    }
+                }
+            ]
         },
         {
             "displayName": "Savage Attacks",
