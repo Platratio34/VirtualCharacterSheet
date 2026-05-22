@@ -157,12 +157,19 @@ async function processRequest(req, res) {
     return
 }
 
+const charPasswordPath = config.basePath+'data/characters/_characterPasswords.json';
 function checkPassword(charId, password) {
     if(password == config.password) {
         return true;
     }
-    
-    return false
+    if(!fs.existsSync(charPasswordPath))
+        return false;
+    let charPasswords = JSON.parse(fs.readFileSync(charPasswordPath).toString())
+    if(!charPasswords) {
+        console.error('Error parsing character password file')
+        return false;
+    }
+    return charPasswords[charId] == password
 }
 
 server.listen(config.port, config.host, () => {

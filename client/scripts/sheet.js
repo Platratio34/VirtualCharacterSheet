@@ -723,7 +723,7 @@ function fetchBackground() {
 
 let _cahcedBadPsw = ''
 function saveCharacter(id = charId) {
-    const psw = localStorage.getItem('vcs_password')
+    const psw = localStorage.getItem('vcs_password_'+id) ?? localStorage.getItem('vcs_password')
     if (!psw) {
         return;
     } else if(badPsw) {
@@ -768,6 +768,16 @@ function saveCharacter(id = charId) {
         console.error(`Save Error: ${error}`)
         makeDirty()
     })
+}
+
+const charPasswordEl = document.getElementById('savePassword');
+function saveCharPassword() {
+    let psw = charPasswordEl.value;
+    const keyId = 'vcs_password_'+charId
+    if(psw == '')
+        localStorage.removeItem(keyId)
+    else
+        localStorage.setItem(keyId, psw)
 }
 
 function useSpellSlot(lvl, amount = 1) {
@@ -901,6 +911,8 @@ setInterval(() => {
         dirty = false
     }
 }, 5000)
+
+charPasswordEl.value = localStorage.getItem('vcs_password_'+charId)
 
 window.addEventListener('beforeunload', (event) => {
   if (dirty) {
