@@ -32,6 +32,25 @@
             padding-left: 5pt;
             padding-right: 5pt;
         }
+
+        .boxed3 {
+            border: 2pt solid white;
+            margin-top: 10pt;
+            border-radius: 20pt;
+            padding-left: 10pt;
+            padding-right: 10pt;
+            padding-top: 5pt;
+            padding-bottom: 5pt;
+            height: 100%;
+        }
+
+        .boxPaded {
+            padding-left: 10pt;
+            padding-right: 10pt;
+            padding-top: 5pt;
+            padding-bottom: 5pt;
+        }
+
         .centered {
             text-align: center;
         }
@@ -173,22 +192,6 @@
             text-align: center;
         }
 
-        .invisInput {
-            background-color: inherit;
-            border: none;
-            color: inherit;
-            width: fit-content;
-            padding: auto;
-        }
-        .invisInput[type=number] {
-            -moz-appearance: textfield;
-        }
-        .invisInput::-webkit-outer-spin-button,
-        .invisInput::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
         #char_hp {
             width: 100%;
             font-size: larger;
@@ -304,18 +307,25 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm boxed">
-                            <h3>Languages</h3>
-                            <div id="char.languages"></div>
+                        <div class="col-sm">
+                            <div class="boxed3">
+                                <h3>Languages</h3>
+                                <div id="char.languages"></div>
+                            </div>
                         </div>
-                        <div class="col-sm boxed">
-                            <h3>Equipment</h3>
-                            <div id="char.equipmentProficiencies"></div>
+                        <div class="col-sm">
+                            <div class="boxed3">
+                                <h3>Equipment</h3>
+                                <div id="char.equipmentProficiencies"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row boxed">
-                        <h3>Other Proficiencies</h3>
-                        <div id="char.otherProficiencies"></div>
+                    <br>
+                    <div class="row">
+                        <div class="boxed3">
+                            <h3>Other Proficiencies</h3>
+                            <div id="char.otherProficiencies"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -347,7 +357,7 @@
                         <div>
                             <input id="char_hp" class="centered invisInput" type="number">
                             <br>
-                            <input type="number" id="inp_hpChange" value="1">
+                            <input type="number" id="inp_hpChange" value="1" class="inpNarrow">
                             <button type="button" onclick='damage(Number(document.getElementById("inp_hpChange").value))'>Damage</button>
                             <button type="button" onclick='modifyHP(Number(document.getElementById("inp_hpChange").value))'>Heal</button>
                             <!-- <button type="button" onclick='setHP(Number(document.getElementById("inp_hpChange").value))'>Set</button> -->
@@ -356,7 +366,7 @@
                             Temp: <input type="number" id="char.tempHP" onchange="setTempHp()">
                         </div>
                     </div>
-                    <div class="row boxed" id="actionList">
+                    <div class="row boxed3" id="actionList">
                         <h3>Actions</h3>
                         <h4>Normal Actions</h4>
                         <div id="normalActions"></div>
@@ -367,7 +377,7 @@
                         <h4>Free Actions</h4>
                         <div id="freeActions"></div>
                     </div>
-                    <div class="row boxed">
+                    <div class="row boxed3">
                         <h3>Inventory</h3>
                         <div id="inventory"></div>
                         <hr>
@@ -389,7 +399,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col boxed">
+            <div class="col boxed3">
                 <h3>Resources</h3>
                 <div id="char_resources"></div>
                 <hr>
@@ -441,53 +451,65 @@
         </div>
         <br>
         <div class="row">
-            <div class="col boxed">
-                <h3>Cantrips</h3>
-                <br>
-                <br>
-                <div id="spells.lvl0"></div>
+            <div class="col">
+                <div class="boxed boxPaded">
+                    <h3>Cantrips</h3>
+                    <br>
+                    <br>
+                    <div id="spells.lvl0"></div>
+                </div>
             </div>
-            <div class="col boxed">
-                <h3>Level 1</h3>
-                <h4 id="spells.lvl1.slots">0/0 Remaining</h4>
-                <button onclick="useSpellSlot(1)">Cast Spell</button>
-                <button onclick="useSpellSlot(1, -1)">Uncast Spell</button>
-                <br>
-                <div id="spells.lvl1"></div>
+            <div class="col">
+                <div class="boxed boxPaded">
+                    <h3>Level 1</h3>
+                    <h4 id="spells.lvl1.slots">0/0 Remaining</h4>
+                    <button onclick="useSpellSlot(1)">Cast Spell</button>
+                    <button onclick="useSpellSlot(1, -1)">Uncast Spell</button>
+                    <br>
+                    <div id="spells.lvl1"></div>
+                </div>
             </div>
-            <div class="col boxed">
-                <h3>Level 2</h3>
-                <h4 id="spells.lvl2.slots">0/0 Remaining</h4>
-                <button onclick="useSpellSlot(2)">Cast Spell</button>
-                <button onclick="useSpellSlot(2, -1)">Uncast Spell</button>
-                <br>
-                <div id="spells.lvl2"></div>
+            <div class="col">
+                <div class="boxed boxPaded">
+                    <h3>Level 2</h3>
+                    <h4 id="spells.lvl2.slots">0/0 Remaining</h4>
+                    <button onclick="useSpellSlot(2)">Cast Spell</button>
+                    <button onclick="useSpellSlot(2, -1)">Uncast Spell</button>
+                    <br>
+                    <div id="spells.lvl2"></div>
+                </div>
             </div>
         </div>
         <div class="row">
-            <div class="col boxed">
-                <h3>Level 3</h3>
-                <h4 id="spells.lvl3.slots">0/0 Remaining</h4>
-                <button onclick="useSpellSlot(3)">Cast Spell</button>
-                <button onclick="useSpellSlot(3, -1)">Uncast Spell</button>
-                <br>
-                <div id="spells.lvl3"></div>
+            <div class="col">
+                <div class="boxed boxPaded">
+                    <h3>Level 3</h3>
+                    <h4 id="spells.lvl3.slots">0/0 Remaining</h4>
+                    <button onclick="useSpellSlot(3)">Cast Spell</button>
+                    <button onclick="useSpellSlot(3, -1)">Uncast Spell</button>
+                    <br>
+                    <div id="spells.lvl3"></div>
+                </div>
             </div>
-            <div class="col boxed">
-                <h3>Level 4</h3>
-                <h4 id="spells.lvl4.slots">0/0 Remaining</h4>
-                <button onclick="useSpellSlot(4)">Cast Spell</button>
-                <button onclick="useSpellSlot(4, -1)">Uncast Spell</button>
-                <br>
-                <div id="spells.lvl4"></div>
+            <div class="col">
+                <div class="boxed boxPaded">
+                    <h3>Level 4</h3>
+                    <h4 id="spells.lvl4.slots">0/0 Remaining</h4>
+                    <button onclick="useSpellSlot(4)">Cast Spell</button>
+                    <button onclick="useSpellSlot(4, -1)">Uncast Spell</button>
+                    <br>
+                    <div id="spells.lvl4"></div>
+                </div>
             </div>
-            <div class="col boxed">
-                <h3>Level 5</h3>
-                <h4 id="spells.lvl5.slots">0/0 Remaining</h4>
-                <button onclick="useSpellSlot(5)">Cast Spell</button>
-                <button onclick="useSpellSlot(5, -1)">Uncast Spell</button>
-                <br>
-                <div id="spells.lvl5"></div>
+            <div class="col">
+                <div class="boxed boxPaded">
+                    <h3>Level 5</h3>
+                    <h4 id="spells.lvl5.slots">0/0 Remaining</h4>
+                    <button onclick="useSpellSlot(5)">Cast Spell</button>
+                    <button onclick="useSpellSlot(5, -1)">Uncast Spell</button>
+                    <br>
+                    <div id="spells.lvl5"></div>
+                </div>
             </div>
         </div>
     </div>
