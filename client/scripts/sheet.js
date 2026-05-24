@@ -151,7 +151,36 @@ function updateCharacter() {
     document.getElementById('char.ac').innerHTML = 10 + dexMod
     document.getElementById('char.speed').innerHTML = char.speed
     
-    document.getElementById('char.maxHP').innerHTML = char.maxHp
+    const maxHPEl = document.getElementById('char.maxHP')
+    maxHPEl.value = char.maxHp
+    maxHPEl.onchange = () => {
+        let temp = Number(maxHPEl.value)
+        if (temp < 1)
+            temp = 1
+        maxHPEl.value = temp
+        if (temp == char.maxHp)
+            return
+        char.maxHp = temp
+        if (char.hp > temp) {
+            char.hp = temp
+            updateHP()
+        }
+        makeDirty()
+    }
+    const hpEl = document.getElementById('char_hp')
+    hpEl.value = char.hp
+    hpEl.onchange = () => {
+        let temp = Number(hpEl.value)
+        if (temp < 0)
+            temp = 0
+        if (temp > char.maxHp)
+            temp = char.maxHp
+        hpEl.value = temp
+        if (temp == char.hp)
+            return
+        char.hp = temp
+        makeDirty()
+    }
     updateHP()
     
     if (char.languages) {
@@ -239,7 +268,7 @@ function updateSpellSlots(level) {
 }
 
 function updateHP() {
-    document.getElementById('char.hp').innerHTML = char.hp
+    document.getElementById('char_hp').value = char.hp
     document.getElementById('char.tempHP').value = char.tempHp
 }
 

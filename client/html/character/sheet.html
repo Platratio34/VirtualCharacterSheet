@@ -169,6 +169,30 @@
             font-size: large;
             margin-bottom: 5pt;
         }
+        .resourceBox .invisInput {
+            text-align: center;
+        }
+
+        .invisInput {
+            background-color: inherit;
+            border: none;
+            color: inherit;
+            width: fit-content;
+            padding: auto;
+        }
+        .invisInput[type=number] {
+            -moz-appearance: textfield;
+        }
+        .invisInput::-webkit-outer-spin-button,
+        .invisInput::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        #char_hp {
+            width: 100%;
+            font-size: larger;
+        }
     </style>
 </head>
 
@@ -319,13 +343,14 @@
                     </div>
                     <div class="row boxed">
                         <h3>Health</h3>
-                        <p>Max: <span id="char.maxHP"></span></p>
+                        <p>Max: <input class="invisInput" id="char.maxHP" type="number"></p>
                         <div>
-                            <h4 id="char.hp" class="centered"></h4>
+                            <input id="char_hp" class="centered invisInput" type="number">
+                            <br>
                             <input type="number" id="inp_hpChange" value="1">
                             <button type="button" onclick='damage(Number(document.getElementById("inp_hpChange").value))'>Damage</button>
                             <button type="button" onclick='modifyHP(Number(document.getElementById("inp_hpChange").value))'>Heal</button>
-                            <button type="button" onclick='setHP(Number(document.getElementById("inp_hpChange").value))'>Set</button>
+                            <!-- <button type="button" onclick='setHP(Number(document.getElementById("inp_hpChange").value))'>Set</button> -->
                         </div>
                         <div>
                             Temp: <input type="number" id="char.tempHP" onchange="setTempHp()">

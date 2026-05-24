@@ -6,6 +6,7 @@ class Resource {
         this.recovery = ''
         this._el = null
         this.__numEl = null
+        this.__maxEl = null
         this.__inpEl = null
     }
 
@@ -30,13 +31,44 @@ class Resource {
         nameEl.innerText = this.displayName
         div.appendChild(nameEl)
         
-        const numEl = document.createElement('p')
-        numEl.innerText = `${this.ammount} / ${this.getMax()}`
-        div.appendChild(numEl)
+        const pEl = document.createElement('p')
+        // pEl.innerText = `${this.ammount} / ${this.getMax()}`
+        div.appendChild(pEl)
+
+        const numEl = document.createElement('input')
+        numEl.type = 'number'
+        numEl.classList.add('invisInput')
+        numEl.value = this.ammount
+        numEl.onchange = () => {
+            let temp = Number(this.__numEl.value)
+            if (temp < 0)
+                temp = 0
+            else if (temp > this.getMax())
+                temp = this.getMax()
+            this.__numEl.value = temp
+            if (temp == this.ammount)
+                return
+            this.ammount = temp
+            makeDirty()
+        }
         this.__numEl = numEl
+        pEl.appendChild(numEl)
+
+        const s = document.createElement('span')
+        s.innerText = ' / '
+        pEl.appendChild(s)
+
+        
+        const maxEl = document.createElement('input')
+        maxEl.type = 'number'
+        maxEl.classList.add('invisInput')
+        maxEl.disabled = true
+        maxEl.value = this.getMax()
+        pEl.appendChild(maxEl)
+        this.__maxEl = maxEl;
 
         const inpEl = document.createElement('input')
-        inpEl.type = 'text'
+        inpEl.type = 'number'
         inpEl.value = 1
         this.__inpEl = inpEl
         div.appendChild(inpEl)
@@ -44,7 +76,7 @@ class Resource {
         const useBtn = document.createElement('button')
         useBtn.innerText = 'Use'
         useBtn.onclick = () => {
-            let temp = this.ammount - Number(this.__inpEl.value)
+            let temp = this.ammount - (Number(this.__inpEl.value) ?? 0)
             if (temp < 0)
                 temp = 0
             if (temp == this.ammount)
@@ -55,21 +87,21 @@ class Resource {
         }
         div.appendChild(useBtn)
         
-        const setBtn = document.createElement('button')
-        setBtn.innerText = 'Set'
-        setBtn.onclick = () => {
-            let temp = Number(this.__inpEl.value)
-            if (temp < 0)
-                temp = 0
-            if (temp > this.getMax())
-                temp = this.getMax()
-            if (temp == this.ammount)
-                return
-            this.ammount = temp
-            this.updateEl()
-            makeDirty()
-        }
-        div.appendChild(setBtn)
+        // const setBtn = document.createElement('button')
+        // setBtn.innerText = 'Set'
+        // setBtn.onclick = () => {
+        //     let temp = Number(this.__inpEl.value)
+        //     if (temp < 0)
+        //         temp = 0
+        //     if (temp > this.getMax())
+        //         temp = this.getMax()
+        //     if (temp == this.ammount)
+        //         return
+        //     this.ammount = temp
+        //     this.updateEl()
+        //     makeDirty()
+        // }
+        // div.appendChild(setBtn)
 
         return div
     }
@@ -77,7 +109,8 @@ class Resource {
     updateEl() {
         if (!this._el)
             return;
-        this.__numEl.innerText = `${this.ammount} / ${this.getMax()}`
+        this.__numEl.value = this.ammount
+        this.__maxEl.value = this.getMax()
     }
 
     recover(type) {
