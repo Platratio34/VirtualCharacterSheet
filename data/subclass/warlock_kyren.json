@@ -28,7 +28,7 @@
         "protection": {
             "displayName": "Protection",
             "description": "At level 3, the energy of your patrol rolls off of you in an aura of protection to come to you in times of need, though at a cost to your own vitality. Once per short or long rest, as a reaction to being attacked, you may expend a number of hit dice up to your current amount , you may roll those dice and take the total as a deduction to any damage lost. You can then deal half this total in necrotic damage to the triggering creature.",
-            "resouces": {
+            "resources": {
                 "kyren_proteciton": {
                     "displayName": "Kyren Protection",
                     "max": "1",

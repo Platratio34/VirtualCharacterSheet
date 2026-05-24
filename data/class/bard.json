@@ -35,9 +35,8 @@
             "resources": {
                 "bardicInspiration": {
                     "displayName": "Bardic Inspiration",
-                    "max": "cha",
-                    "maxMin": 1,
-                    "regain": "longRest"
+                    "max": "min(&CHA,1)",
+                    "recovery": "longRest"
                 }
             },
             "actions": [{

@@ -15,6 +15,7 @@
     <script src='scripts/classes/race.js'></script>
     <script src='scripts/classes/background.js'></script>
     <script src='scripts/classes/spell.js'></script>
+    <script src='scripts/classes/resource.js'></script>
     <style>
         .boxed {
             border: 2pt solid white;
@@ -143,6 +144,30 @@
 
         #actionList h4 {
             font-weight: bold;
+        }
+
+        #char_resources {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .resourceBox {
+            border: 2pt solid white;
+            margin-top: 10pt;
+            border-radius: 10pt;
+            padding-left: 2pt;
+            padding-right: 2pt;
+            padding-bottom: 5pt;
+            padding-top: 3pt;
+
+            width: 100pt;
+            text-align: center;
+        }
+        .resourceBox input {
+            width: 40pt;
+        }
+        .resourceBox p {
+            font-size: large;
+            margin-bottom: 5pt;
         }
     </style>
 </head>
@@ -340,6 +365,9 @@
                 </div>
             </div>
             <div class="col boxed">
+                <h3>Resources</h3>
+                <div id="char_resources"></div>
+                <hr>
                 <h3>Features and Traits</h3>
                 <div id="char.features"></div>
                 <div style="bottom:0;position:relative">

@@ -119,6 +119,12 @@ function updateAbilities() {
 function loadCharacter(json) {
     char = new Character("")
     Object.assign(char, json);
+    if (char.resources) {
+        Object.keys(char.resources).forEach(id => {
+            char.resources[id] = Object.assign(new Resource(), char.resources[id])
+            addResouce(id, char.resources[id])
+        })
+    }
     fetchClass()
     fetchSubClass()
     fetchRace()
@@ -603,6 +609,31 @@ function addFeature(feat) {
         addAction(feat.use)
     }
     // _reorderFeatures()
+
+    if (feat.resources) {
+        Object.keys(feat.resources).forEach(id => {
+            addResouce(id, feat.resources[id])
+        })
+    }
+}
+
+const resourcesEl = document.getElementById('char_resources')
+function addResouce(id, resource_) {
+    if (!char.resources)
+        char.resources = {}
+    if (!char.resources[id]) {
+        const resource = Object.assign(new Resource(), resource_)
+        char.resources[id] = resource
+        resource.ammount = resource.getMax()
+    } else {
+        const cr = char.resources[id]
+        cr.max = resource_.max
+        cr.recovery = resource_.recovery
+        cr.updateEl()
+    }
+    if (!char.resources[id]._el) {
+        resourcesEl.appendChild(char.resources[id].makeEl())
+    }
 }
 
 function _reorderFeatures() {
@@ -864,10 +895,15 @@ function longRest() {
     }
     for (let i = 1; i <= 5; i++)
         updateSpellSlots(i)
+    if(char.resources)
+        Object.values(char.resources).forEach(r => {
+            r.recover('longRest')
+        })
     char.hp = char.maxHp
     updateHP()
     makeDirty()
 }
+
 function shortRest() {
     if (charClass.features.spellCasting) {
         if(charClass.features.spellCasting.recovery == 'shortRest')
@@ -875,6 +911,10 @@ function shortRest() {
     }
     for (let i = 1; i <= 5; i++)
         updateSpellSlots(i)
+    if(char.resources)
+        Object.values(char.resources).forEach(r => {
+            r.recover('shortRest')
+        })
     makeDirty()
 }
 

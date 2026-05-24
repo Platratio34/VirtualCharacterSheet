@@ -22,7 +22,7 @@
             "displayName": "Healing Hands",
             "source": "Race: Aasimar",
             "description": "As an action, you can touch a creature and cause it to regain a number of hit points equal to your level. Once you use this trait, you can't use it again until you finish a long rest.",
-            "resouces": {
+            "resources": {
                 "healingHands": {
                     "displayName": "Healing Hands",
                     "max": 1,
@@ -53,7 +53,7 @@
                 "Your transformation lasts for 1 minute or until you end it as a bonus action. During it, you have a flying speed of 30 feet, and once on each of your turns, you can deal extra radiant damage to one target when you deal damage to it with an attack or a spell. The extra radiant damage equals your level.",
                 "Once you use this trait, you can't use it again until you finish a long rest."
             ],
-            "resouces": {
+            "resources": {
                 "radiantSoul": {
                     "max": 1,
                     "recovery": "longRest"

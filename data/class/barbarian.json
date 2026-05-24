@@ -36,7 +36,7 @@
                     }
                 }
             ],
-            "resouces": {
+            "resources": {
                 "rage": {
                     "displayName": "Rage Charges",
                     "max": [2,2,3,3,3,4],
