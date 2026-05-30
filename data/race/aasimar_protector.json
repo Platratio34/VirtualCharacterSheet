@@ -55,6 +55,7 @@
             ],
             "resources": {
                 "radiantSoul": {
+                    "displayName": "Radiant Soul",
                     "max": 1,
                     "recovery": "longRest"
                 }

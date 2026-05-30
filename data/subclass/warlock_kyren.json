@@ -19,7 +19,7 @@
         },
         "theStone": {
             "displayName": "The Stone",
-            "description": "It is smooth, glossy and deep black. At 1st level it is given to Nadia as she moves from a city of white to one of red. With the stone's presence, she may turn that small stone into any weapon she chooses and wield it with a skill not reflecting her experience [she has proficiency] . While wielding this weapon, she may use the spell Hex as a free action without expending. If the target is killed she regains hp equal to her level + charisma modifier. Critical hits with the stone are now 18, 19, and 20s."
+            "description": "It is smooth, glossy and deep black. At 1st level it is given to Nadia as she moves from a city of white to one of red. With the stone's presence, she may turn that small stone into any weapon she chooses and wield it with a skill not reflecting her experience [she has proficiency] . While wielding this weapon, she may use the spell Hex as a free action without expending a spell slot. If the target is killed she regains hp equal to her level + charisma modifier. Critical hits with the stone are now 18, 19, and 20s."
         },
         "theSight": {
             "displayName": "The Sight",
@@ -31,7 +31,7 @@
             "resources": {
                 "kyren_proteciton": {
                     "displayName": "Kyren Protection",
-                    "max": "1",
+                    "max": 1,
                     "recover": "shortRest"
                 }
             },

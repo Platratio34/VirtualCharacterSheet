@@ -87,6 +87,18 @@ class Resource {
         }
         div.appendChild(useBtn)
         
+        const resetBtn = document.createElement('button')
+        resetBtn.innerText = 'Rst'
+        resetBtn.onclick = () => {
+            let temp = this.getMax()
+            if (temp == this.ammount)
+                return
+            this.ammount = temp
+            this.updateEl()
+            makeDirty()
+        }
+        div.appendChild(resetBtn)
+        
         // const setBtn = document.createElement('button')
         // setBtn.innerText = 'Set'
         // setBtn.onclick = () => {

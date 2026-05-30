@@ -304,9 +304,11 @@ function loadSpell(lvl, id) {
     el.classList.add("spellDiv")
     let atWill = false
     let source = null
+    let notes = null
     if (typeof (id) == 'object') {
         atWill = id.atWill
         source = id.source
+        notes = id.notes
         id = id.id
     }
     fetch(`data/spell/lvl${lvl}/${id}`).then(rsp => {
@@ -385,6 +387,12 @@ function loadSpell(lvl, id) {
             bodyDiv.appendChild(hl)
             makeDescriptionEls(bodyDiv, spell.higherLevels.description)
         }
+        if (notes) {
+            const el = document.createElement('p')
+            el.innerHTML = `<b>Notes:</b></br>${notes}`
+            bodyDiv.appendChild(el)
+        }
+        bodyDiv.appendChild(document.createElement('hr'))
     }).catch(err => {
         console.error(`Error loading spell`, err)
     })
@@ -631,6 +639,8 @@ function addFeature(feat) {
     bodyDiv.id = id
     div.appendChild(bodyDiv)
     makeDescriptionEls(bodyDiv, feat.description, 'No Description')
+
+    bodyDiv.appendChild(document.createElement('hr'))
     
     if (feat.actions) {
         feat.actions.forEach(addAction)
